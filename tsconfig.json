@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "rootDir": "./cli/",
+    "outDir": "./dist/",
+    "noEmit": false,
+    "composite": true
+  },
+  "include": ["./cli"],
+  "references": []
+}
