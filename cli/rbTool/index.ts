@@ -7,7 +7,7 @@ import { _listRB } from "./list";
 const RB_PATH = _getPath()
 const date = new Date();
 const today = `${date.getFullYear()}${String(date.getMonth()+1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
-const filePath = join(RB_PATH, today);
+const filePath = join(RB_PATH, `${today}.txt`);
 
 const addRB = (content) => _addRB(filePath, content)
 const listRB = () => _listRB(filePath)
