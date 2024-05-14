@@ -1,4 +1,4 @@
-const countWords = (text = process.argv[3] || '') => {
+const countWords = (text = process.argv[3] || '', log = false) => {
   /**
    * 截至 2023-10-14 日报计数规则如下：
    * 1. 字符不算
@@ -22,7 +22,11 @@ const countWords = (text = process.argv[3] || '') => {
     englishCount = englishMatches.length;
   }
 
-  return chineseCount + englishCount;
+  const count = chineseCount + englishCount;
+
+  log && console.log(count);
+
+  return count;
 }
 
 export { countWords }
