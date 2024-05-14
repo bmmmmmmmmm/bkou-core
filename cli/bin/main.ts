@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { setPath, addRB, listRB } from "./rbTool"
-import { countWords } from "./countWords"
+import { setPath, addRB, listRB } from "../rbTool"
+import { countWords } from "../countWords"
 
 export const commands = {
   '@@SETRBPATH@@': setPath,
