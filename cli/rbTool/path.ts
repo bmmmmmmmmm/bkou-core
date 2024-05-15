@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 
 const envPath = join(__dirname, 'ENV');
 const DEFAULT_PATH = ''
@@ -15,6 +15,7 @@ const _getPath = () => {
 
 const _setPath = (newPath: string) => {
   try {
+    mkdirSync(dirname(join(envPath, 'path')), { recursive: true });
     writeFileSync(join(envPath, 'path'), newPath);
   } catch (err) {
     console.error(err);
