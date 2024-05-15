@@ -3,7 +3,8 @@
     "rootDir": "./cli/",
     "outDir": "./dist/",
     "noEmit": false,
-    "composite": true
+    "composite": true,
+    "allowJs": true
   },
   "include": ["./cli"],
   "references": []
