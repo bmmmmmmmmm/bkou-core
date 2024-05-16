@@ -13,10 +13,10 @@ const _listRB = (filePath) => {
       const count = countWords(result)
       return { result, count }
     } catch (err) {
-      throw new Error(`>> Failed to list <<\n${err}\n>> Failed to list <<`);
+      throw new Error(`>> Failed to list <<\n${err}\nEND__: >> Failed to list <<`);
     }
   } else {
-    throw new Error('>> Failed to list <<\nNo file for today\n>> Failed to list <<')
+    throw new Error('>> Failed to list <<\nNo file for today\nEND__: >> Failed to list <<')
   }
 };
 

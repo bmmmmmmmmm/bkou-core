@@ -11,7 +11,7 @@ const _getPath = () => {
     const filePath = join(readPathRes, `${today}.md`);
     return filePath;
   } catch (err) {
-    throw new Error(`>> Failed to get path <<\n${err}\n>> Failed to get path <<`);
+    throw new Error(`>> Failed to get path <<\n${err}\nEND__: >> Failed to get path <<`);
   }
 };
 
@@ -20,7 +20,7 @@ const _setPath = (newPath: string) => {
     mkdirSync(dirname(join(envPath, 'path')), { recursive: true });
     writeFileSync(join(envPath, 'path'), newPath);
   } catch (err) {
-    throw new Error(`>> Failed to set path <<\n${err}\n>> Failed to set path <<`);
+    throw new Error(`>> Failed to set path <<\n${err}\nEND__: >> Failed to set path <<`);
   }
 };
 

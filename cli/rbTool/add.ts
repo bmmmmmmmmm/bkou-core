@@ -13,7 +13,7 @@ const _addRB = (filePath, content: string) => {
       writeFileSync(filePath, text);
     }
   } catch (err) {
-    throw new Error(`>> Failed to add <<\n${err}\n>> Failed to add <<`);
+    throw new Error(`>> Failed to add <<\n${err}\nEND__: >> Failed to add <<`);
   }
 }
 

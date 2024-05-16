@@ -27,7 +27,7 @@ const countWords = (text = process.argv[3] || '', log = false) => {
 
     return count
   } catch (err) {
-    throw new Error(`>> Failed to count <<\n${err}\n>> Failed to count <<`);
+    throw new Error(`>> Failed to count <<\n${err}\nEND__: >> Failed to count <<`);
   }
 }
 
