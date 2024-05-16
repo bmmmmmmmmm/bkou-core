@@ -30,6 +30,7 @@ const logStyleMap = new Map<LogStyle, string>([
 
 const _log = (params: string | string[], style?: LogStyle | LogStyle[]) => {
   const message = Array.isArray(params) ? params.join('\n') : params;
+  if (!style) return console.log(`=======BK=======\n${message}\n=======BK=======`);
   const styleLog = Array.isArray(style) ? style.map(s => logStyleMap.get(s)).join(';') : logStyleMap.get(style);
   console.log(`\x1B[${styleLog}m%s\x1B[0m`, `=======BK=======\n${message}\n=======BK=======`)
 }
