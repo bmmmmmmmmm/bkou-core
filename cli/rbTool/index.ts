@@ -11,28 +11,27 @@ const today = `${date.getFullYear()}${String(date.getMonth()+1).padStart(2, '0')
 const filePath = join(RB_PATH, `${today}.md`);
 
 const addRB = (content) => {
-  const [ success, info ] = _addRB(filePath, content)
-  if (success) {
-    _log(`${info} :: Added to ${today} => ${content}`)
-  } else {
-    _log(['Failed to add', info], 'red')
+  try {
+    _addRB(filePath, content)
+    _log(`Added to ${today} => ${content}`)
+  } catch (err) {
+    _log(err, 'red')
   }
 }
 const listRB = () => {
-  const [ success, info ] = _listRB(filePath)
-  if (success) {
-    const { result, count } = info
+  try {
+    const { result, count } = _listRB(filePath)
     _log([result, `Total words: ${count}`])
-  } else {
-    _log(['Failed to list', info], 'red')
+  } catch (err) {
+    _log(err, 'red')
   }
 }
 const setPath = (path) => {
-  const [ success, info ] = _setPath(path)
-  if (success) {
-    _log(`Path set to ${info}`)
-  } else {
-    _log(['Failed to set path', info], 'red')
+  try {
+    _setPath(path)
+    _log(`Path set to ${path}`)
+  } catch (err) {
+    _log(err, 'red')
   }
 }
 

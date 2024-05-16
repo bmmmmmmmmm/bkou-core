@@ -3,7 +3,8 @@ import { EOL } from 'node:os'
 
 const _addRB = (filePath, content: string) => {
   const date = new Date();
-  const text = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}::${content}${EOL}`;
+  const time = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  const text = `${time}::${content}${EOL}`;
 
   try {
     if (existsSync(filePath)) {
@@ -11,9 +12,8 @@ const _addRB = (filePath, content: string) => {
     } else {
       writeFileSync(filePath, text);
     }
-    return [true, date]
   } catch (err) {
-    return [false, err]
+    throw new Error(`>> Failed to add <<\n${err}\n>> Failed to add <<`);
   }
 }
 

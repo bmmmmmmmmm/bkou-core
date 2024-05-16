@@ -2,14 +2,12 @@ import { readFileSync, mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 const envPath = join(__dirname, 'ENV');
-const DEFAULT_PATH = ''
 
 const _getPath = () => {
   try {
     return readFileSync(join(envPath, 'path'), 'utf8').trim();
   } catch (err) {
-    console.error(err);
-    return DEFAULT_PATH;
+    throw new Error(`>> Failed to get path <<\n${err}\n>> Failed to get path <<`);
   }
 };
 
@@ -17,9 +15,8 @@ const _setPath = (newPath: string) => {
   try {
     mkdirSync(dirname(join(envPath, 'path')), { recursive: true });
     writeFileSync(join(envPath, 'path'), newPath);
-    return [true, newPath]
   } catch (err) {
-    return [false, err]
+    throw new Error(`>> Failed to set path <<\n${err}\n>> Failed to set path <<`);
   }
 };
 

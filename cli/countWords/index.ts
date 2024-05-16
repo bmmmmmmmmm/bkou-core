@@ -6,27 +6,29 @@ const countWords = (text = process.argv[3] || '', log = false) => {
    * 3. 英文与数字混合计算，以空格分割
    */
 
-  // 统计中文字数
-  let chineseCount = 0;
-  const chinesePattern = /[\u4e00-\u9fa5]/g;
-  const chineseMatches = text.match(chinesePattern);
-  if (chineseMatches) {
-    chineseCount = chineseMatches.length;
+  try {
+    // 统计中文字数
+    let chineseCount = 0;
+    const chinesePattern = /[\u4e00-\u9fa5]/g;
+    const chineseMatches = text.match(chinesePattern);
+    if (chineseMatches) {
+      chineseCount = chineseMatches.length;
+    }
+
+    // 统计英文与数字
+    let englishCount = 0;
+    const englishPattern = /[a-zA-Z0-9]+/g;
+    const englishMatches = text.match(englishPattern);
+    if (englishMatches) {
+      englishCount = englishMatches.length;
+    }
+
+    const count = chineseCount + englishCount;
+
+    return count
+  } catch (err) {
+    throw new Error(`>> Failed to count <<\n${err}\n>> Failed to count <<`);
   }
-
-  // 统计英文与数字
-  let englishCount = 0;
-  const englishPattern = /[a-zA-Z0-9]+/g;
-  const englishMatches = text.match(englishPattern);
-  if (englishMatches) {
-    englishCount = englishMatches.length;
-  }
-
-  const count = chineseCount + englishCount;
-
-  log && console.log(count);
-
-  return count;
 }
 
 export { countWords }

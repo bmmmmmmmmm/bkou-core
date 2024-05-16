@@ -11,12 +11,12 @@ const _listRB = (filePath) => {
       const lines = content.split('\n');
       const result = lines.map(line => line.split('::')[1]).join(EOL);
       const count = countWords(result)
-      return [true, { result, count }]
+      return { result, count }
     } catch (err) {
-      return [false, err]
+      throw new Error(`>> Failed to list <<\n${err}\n>> Failed to list <<`);
     }
   } else {
-    return [false, 'No file for today']
+    throw new Error('>> Failed to list <<\nNo file for today\n>> Failed to list <<')
   }
 };
 
