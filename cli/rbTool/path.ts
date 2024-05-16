@@ -5,7 +5,11 @@ const envPath = join(__dirname, 'ENV');
 
 const _getPath = () => {
   try {
-    return readFileSync(join(envPath, 'path'), 'utf8').trim();
+    const readPathRes = readFileSync(join(envPath, 'path'), 'utf8').trim();
+    const date = new Date();
+    const today = `${date.getFullYear()}${String(date.getMonth()+1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
+    const filePath = join(readPathRes, `${today}.md`);
+    return filePath;
   } catch (err) {
     throw new Error(`>> Failed to get path <<\n${err}\n>> Failed to get path <<`);
   }
