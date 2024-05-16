@@ -1,4 +1,6 @@
-const countWords = (text = process.argv[3] || '', log = false) => {
+import { _log } from "../utils";
+
+const _countWords = (text = process.argv[3] || '') => {
   /**
    * 截至 2023-10-14 日报计数规则如下：
    * 1. 字符不算
@@ -31,4 +33,13 @@ const countWords = (text = process.argv[3] || '', log = false) => {
   }
 }
 
-export { countWords }
+const countWords = (params) => {
+  try {
+    const count = _countWords(params);
+    _log(`Total words: ${count}`);
+  } catch (err) {
+    _log(err, 'red');
+  }
+}
+
+export { _countWords, countWords }
