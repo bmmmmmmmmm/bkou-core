@@ -1,17 +1,22 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { EOL } from 'node:os'
 
+import { _log } from '../utils'
 import { countWords } from '../countWords'
 
 const _listRB = (filePath) => {
   if (existsSync(filePath)) {
-    const content = readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
-    const result = lines.map(line => line.split('::')[1]).join(EOL);
-    const count = countWords(result)
-    console.log(`${result}\n============\nTotal words: ${count}`)
+    try {
+      const content = readFileSync(filePath, 'utf8');
+      const lines = content.split('\n');
+      const result = lines.map(line => line.split('::')[1]).join(EOL);
+      const count = countWords(result)
+      return [true, { result, count }]
+    } catch (err) {
+      return [false, err]
+    }
   } else {
-    console.log('No file for today');
+    return [false, 'No file for today']
   }
 };
 

@@ -17,8 +17,9 @@ const _setPath = (newPath: string) => {
   try {
     mkdirSync(dirname(join(envPath, 'path')), { recursive: true });
     writeFileSync(join(envPath, 'path'), newPath);
+    return [true, newPath]
   } catch (err) {
-    console.error(err);
+    return [false, err]
   }
 };
 
