@@ -15,8 +15,8 @@ const addRB = (content) => {
 const listRB = () => {
   try {
     const filePath = _getPath()
-    const { result, count } = _listRB(filePath)
-    _log([result, `Total words: ${count}`])
+    const { result, lineCount, wordCount } = _listRB(filePath)
+    _log([...result.map(([time, row]) => `${time} => ${row}`), '================', `Total lines: ${lineCount}`, `Total words: ${wordCount}`])
   } catch (err) {
     _log(err, 'red')
   }

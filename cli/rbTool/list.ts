@@ -8,10 +8,17 @@ const _listRB = (filePath) => {
   if (existsSync(filePath)) {
     try {
       const content = readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
-      const result = lines.map(line => line.split('::')[1]).join(EOL);
-      const count = _countWords(result)
-      return { result, count }
+      const lines = content.split(/\r?\n/g)
+      const result = lines.map(row => {
+        const rowArray = row.split(/\:\:/g)
+        if (rowArray.length === 1) {
+          return ['__:__', rowArray[0]]
+        }
+        return [rowArray[0], rowArray.slice(1).join('::')]
+      })
+      const lineCount = result.length
+      const wordCount = _countWords(result.map(arr => arr.slice(1).join(' ')).join(' '))
+      return { result, lineCount, wordCount }
     } catch (err) {
       throw new Error(`>> Failed to list <<\n${err}\nEND__: >> Failed to list <<`);
     }
