@@ -1,0 +1,19 @@
+{
+  "name": "@bkou/cli",
+  "version": "0.0.1",
+  "description": "===",
+  "author": "Bkou",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist/**/*.js"
+  ],
+  "bin": {
+    "bk": "./dist/bin/main.js",
+    "rb": "./dist/bin/rb.js",
+    "rbl": "./dist/bin/rbl.js",
+    "le": "./dist/bin/le.js"
+  }
+}

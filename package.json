@@ -2,30 +2,10 @@
   "name": "bkit",
   "version": "0.0.1",
   "description": "===",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc"
-  },
-  "bin": {
-    "bk": "./dist/bin/main.js",
-    "rb": "./dist/bin/rb.js",
-    "rbl": "./dist/bin/rbl.js",
-    "le": "./dist/bin/le.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bmmmmmmmmm/BKit.git"
-  },
   "author": "Bkou",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/bmmmmmmmmm/BKit/issues"
-  },
-  "homepage": "https://github.com/bmmmmmmmmm/BKit#readme",
   "devDependencies": {
-    "@types/node": "^20.12.11"
-  },
-  "dependencies": {
+    "@types/node": "^20.12.11",
     "typescript": "^5.4.5"
   }
 }

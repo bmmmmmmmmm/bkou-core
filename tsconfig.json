@@ -5,7 +5,5 @@
     "noEmit": false,
     "composite": true,
     "allowJs": true
-  },
-  "include": ["./cli"],
-  "references": []
+  }
 }
