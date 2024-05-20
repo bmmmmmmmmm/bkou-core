@@ -1,7 +1,8 @@
 import { existsSync, appendFileSync, writeFileSync } from 'node:fs'
 import { EOL } from 'node:os'
 
-const _addRB = (filePath, content: string) => {
+const _addRB = (filePath: string, content: string) => {
+  if (!filePath.trim()) throw new Error('>> Failed to add <<\nPath not set\nEND__: >> Failed to add <<');
   const date = new Date();
   const time = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
   const text = `${time}::${content}`;

@@ -5,6 +5,7 @@ import { _log } from '../utils'
 import { _countWords } from '../countWords'
 
 const _listRB = (filePath) => {
+  if (!filePath.trim()) throw new Error('>> Failed to list <<\nPath not set\nEND__: >> Failed to list <<');
   if (existsSync(filePath)) {
     try {
       const content = readFileSync(filePath, 'utf8');

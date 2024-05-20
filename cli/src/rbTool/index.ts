@@ -30,8 +30,19 @@ const setPath = (path) => {
   }
 }
 
+const getPath = () => {
+  try {
+    const path = _getPath()
+    _log(path)
+  } catch (err) {
+    _log(err, 'red')
+  }
+}
+
 export {
   setPath,
+  getPath,
+
   addRB,
   listRB
 }
