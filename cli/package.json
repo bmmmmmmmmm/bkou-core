@@ -5,7 +5,11 @@
   "author": "Bkou",
   "license": "ISC",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clear:dist": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "rebuild": "npm run clear:dist && npm run build",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "public": "npm run rebuild && npm run version:patch && npm publish --access public"
   },
   "files": [
     "dist/**/*.js"
