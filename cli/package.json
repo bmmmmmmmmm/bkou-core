@@ -2,7 +2,7 @@
   "name": "@bkou/cli",
   "version": "0.0.2",
   "description": "===",
-  "author": "Bkou",
+  "author": "BKou",
   "license": "ISC",
   "scripts": {
     "build": "tsc",

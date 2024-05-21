@@ -2,7 +2,7 @@
   "name": "bkit",
   "version": "0.0.1",
   "description": "===",
-  "author": "Bkou",
+  "author": "BKou",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.11",
