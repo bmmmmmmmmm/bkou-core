@@ -8,6 +8,7 @@
     "build": "tsc",
     "clear:dist": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "rebuild": "npm run clear:dist && npm run build",
+    "dev": "npm run rebuild && chmod +x dist/bin/* && npm uninstall @bkou/cli -g && npm link",
     "version:patch": "npm version patch --no-git-tag-version",
     "public": "npm run rebuild && npm run version:patch && npm publish --access public"
   },
