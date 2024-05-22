@@ -1,11 +1,11 @@
 import { _log } from '../utils';
-import { _getPath, _setPath } from "./path";
+import { _getRbPathENV, _getRbPathTD, _setRbPathENV } from "./path";
 import { _addRB } from "./add";
 import { _listRB } from "./list";
 
 const addRB = (content) => {
   try {
-    const filePath = _getPath()
+    const filePath = _getRbPathTD()
     _addRB(filePath, content)
     _log(`RB added => ${content}`)
   } catch (err) {
@@ -14,25 +14,25 @@ const addRB = (content) => {
 }
 const listRB = () => {
   try {
-    const filePath = _getPath()
+    const filePath = _getRbPathTD()
     const { result, lineCount, wordCount } = _listRB(filePath)
     _log([...result.map(([time, row]) => `${time} => ${row}`), '================', `Total lines: ${lineCount}`, `Total words: ${wordCount}`])
   } catch (err) {
     _log(err, 'red')
   }
 }
-const setPath = (path) => {
+const setRbPathENV = (path) => {
   try {
-    _setPath(path)
+    _setRbPathENV(path)
     _log(`Path set to ${path}`)
   } catch (err) {
     _log(err, 'red')
   }
 }
 
-const getPath = () => {
+const getRbPathENV = () => {
   try {
-    const path = _getPath()
+    const path = _getRbPathENV()
     _log(path)
   } catch (err) {
     _log(err, 'red')
@@ -40,8 +40,8 @@ const getPath = () => {
 }
 
 export {
-  setPath,
-  getPath,
+  setRbPathENV,
+  getRbPathENV,
 
   addRB,
   listRB

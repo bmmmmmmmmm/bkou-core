@@ -1,27 +1,36 @@
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
-const envPath = join(__dirname, 'ENV');
+const ENV_PATH = join(__dirname, 'ENV');
 
-const _getPath = () => {
+const _getRbPathENV = () => {
   try {
-    const readPathRes = readFileSync(join(envPath, 'path'), 'utf8').trim();
+    const rbPathENV = readFileSync(join(ENV_PATH, 'path'), 'utf8').trim();
+    return rbPathENV
+  } catch (err) {
+    throw new Error(`>> Failed to get rbPath ENV <<\n${err}\nEND__: >> Failed to get rbPath ENV <<`);
+  }
+}
+
+const _getRbPathTD = () => {
+  try {
+    const rbPathENV = _getRbPathENV();
     const date = new Date();
     const today = `${date.getFullYear()}${String(date.getMonth()+1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
-    const filePath = join(readPathRes, `${today}.md`);
-    return filePath;
+    const rbPathTD = join(rbPathENV, `${today}.md`);
+    return rbPathTD;
   } catch (err) {
-    throw new Error(`>> Failed to get path <<\n${err}\nEND__: >> Failed to get path <<`);
+    throw new Error(`>> Failed to get rbPath TD <<\n${err}\nEND__: >> Failed to get rbPath TD <<`);
   }
 };
 
-const _setPath = (newPath: string) => {
+const _setRbPathENV = (newPath: string) => {
   try {
-    mkdirSync(dirname(join(envPath, 'path')), { recursive: true });
-    writeFileSync(join(envPath, 'path'), newPath);
+    mkdirSync(dirname(join(ENV_PATH, 'path')), { recursive: true });
+    writeFileSync(join(ENV_PATH, 'path'), newPath);
   } catch (err) {
-    throw new Error(`>> Failed to set path <<\n${err}\nEND__: >> Failed to set path <<`);
+    throw new Error(`>> Failed to set rbPath ENV <<\n${err}\nEND__: >> Failed to set rbPath ENV <<`);
   }
 };
 
-export { _getPath, _setPath }
+export { _getRbPathENV, _getRbPathTD, _setRbPathENV }
