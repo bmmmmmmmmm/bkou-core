@@ -17,8 +17,8 @@
   ],
   "bin": {
     "bk": "./dist/bin/main.js",
-    "rb": "./dist/bin/rb.js",
-    "rbl": "./dist/bin/rbl.js",
-    "le": "./dist/bin/le.js"
+    "rb": "./dist/bin/rbTool/rb.js",
+    "rbl": "./dist/bin/rbTool/rbl.js",
+    "le": "./dist/bin/countWords/le.js"
   }
 }
