@@ -1,4 +1,4 @@
-import { _log } from "../utils";
+import { _log } from '../../utils';
 
 const _countWords = (text = process.argv[3] || '') => {
   /**

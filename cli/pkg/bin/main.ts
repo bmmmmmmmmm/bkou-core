@@ -7,7 +7,7 @@ import {
   listRB,
 
   countWords
-} from '../index.cli'
+} from '../src/index.cli'
 
 export const commands = {
   '@@SETRBPATH@@': setRbPathENV,

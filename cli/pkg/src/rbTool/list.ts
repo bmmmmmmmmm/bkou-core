@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { EOL } from 'node:os'
 
-import { _log } from '../utils'
+import { _log } from '../../utils'
 import { _countWords } from '../countWords'
 
 const _listRB = (filePath) => {
