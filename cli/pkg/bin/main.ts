@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { _log } from '../utils'
 import {
   setRbPathENV,
   getRbPathENV,
@@ -29,11 +30,15 @@ const main = async () => {
   const whichCommand = process.argv[2] as Commands
   const USER_INPUT = process.argv.slice(3).join(' ') || '';
   try {
+    if (!whichCommand) {
+      return _log(['commandList:', JSON.stringify(commandsDesc, null, 2)], 'cyan')
+    }
+    if (!commands[whichCommand]) {
+      throw new Error('wrong command')
+    }
     await commands[whichCommand](USER_INPUT)
   } catch (err) {
-    console.log(err)
-    console.log('wrong command')
-    console.log('commandList\n', commandsDesc)
+    _log([err, '================', 'commandList:', JSON.stringify(commandsDesc, null, 2)], 'red')
   }
 }
 
