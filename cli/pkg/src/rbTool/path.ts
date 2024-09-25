@@ -1,5 +1,6 @@
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { _isAbsolutePath } from '../../utils';
 
 const ENV_PATH = join(__dirname, 'ENV');
 
@@ -26,6 +27,7 @@ const _getRbPathTD = () => {
 
 const _setRbPathENV = (newPath: string) => {
   try {
+    if (!_isAbsolutePath(newPath)) throw new Error(`'${newPath}' is not absolute path`);
     mkdirSync(dirname(join(ENV_PATH, 'path')), { recursive: true });
     writeFileSync(join(ENV_PATH, 'path'), newPath);
   } catch (err) {
