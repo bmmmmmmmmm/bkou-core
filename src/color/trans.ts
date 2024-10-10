@@ -1,5 +1,5 @@
-
-const HexToDec = (c) => {
+// 8bit color
+const hex2Dec = (c) => {
   if (RegExp(/^[a-f|0-9]+$/i).test(c)) {
     return parseInt(c, 16)
   }
@@ -9,8 +9,8 @@ const HexToDec = (c) => {
  * @description RGBA 覆盖在 RGB 背景色上所呈现出的视觉 RGB 颜色
  * */
 const rgba2rgb = (RGBA_color, RGB_background) => { // RGBA_color and RGB_background are hex values, without the leading #
-  const ca = { r: HexToDec(RGBA_color.substr(0, 2)), g: HexToDec(RGBA_color.substr(2, 2)), b: HexToDec(RGBA_color.substr(4, 2)), a: HexToDec(RGBA_color.substr(6, 2)) / 255 }
-  const ba = { r: HexToDec(RGB_background.substr(0, 2)), g: HexToDec(RGB_background.substr(2, 2)), b: HexToDec(RGB_background.substr(4, 2)) }
+  const ca = { r: hex2Dec(RGBA_color.substr(0, 2)), g: hex2Dec(RGBA_color.substr(2, 2)), b: hex2Dec(RGBA_color.substr(4, 2)), a: hex2Dec(RGBA_color.substr(6, 2)) / 255 }
+  const ba = { r: hex2Dec(RGB_background.substr(0, 2)), g: hex2Dec(RGB_background.substr(2, 2)), b: hex2Dec(RGB_background.substr(4, 2)) }
   let a = ca.a
   if (isNaN(a)) a = 1
   const modR = Math.round((1 - a) * ba.r + a * ca.r)
@@ -25,9 +25,9 @@ const rgba2rgb = (RGBA_color, RGB_background) => { // RGBA_color and RGB_backgro
  */
 const getL = (HEX6) => {
   let R, G, B
-  const RsRGB = HexToDec(HEX6.substr(0, 2)) / 255
-  const GsRGB = HexToDec(HEX6.substr(2, 2)) / 255
-  const BsRGB = HexToDec(HEX6.substr(4, 2)) / 255
+  const RsRGB = hex2Dec(HEX6.substr(0, 2)) / 255
+  const GsRGB = hex2Dec(HEX6.substr(2, 2)) / 255
+  const BsRGB = hex2Dec(HEX6.substr(4, 2)) / 255
   if (RsRGB <= 0.03928) R = RsRGB / 12.92; else R = Math.pow((RsRGB + 0.055) / 1.055, 2.4)
   if (GsRGB <= 0.03928) G = GsRGB / 12.92; else G = Math.pow((GsRGB + 0.055) / 1.055, 2.4)
   if (BsRGB <= 0.03928) B = BsRGB / 12.92; else B = Math.pow((BsRGB + 0.055) / 1.055, 2.4)

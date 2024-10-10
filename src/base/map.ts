@@ -1,4 +1,4 @@
-function createMapFromArrays<K, V>(keys: K[], values: V[]): Map<K, V> {
+function createMapFromArrays<K, V>(keys: readonly K[] | K[], values: readonly V[] | V[]): Map<K, V> {
   if (keys.length !== values.length) {
     throw new Error("Keys and values must have the same length");
   }
