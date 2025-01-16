@@ -1,1 +1,1 @@
-# @bkou/kit
+# @bkou/core
