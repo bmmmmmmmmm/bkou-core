@@ -5,6 +5,7 @@
     "allowJs": true,
     "rootDir": "./src/",
     "outDir": "./dist/",
+    "baseUrl": "src"
   },
   "include": ["./src"]
 }
