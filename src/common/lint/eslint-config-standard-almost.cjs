@@ -3,8 +3,12 @@
  */
 
 module.exports = {
+  ignorePatterns: [
+    '!.*', 'node_modules' // EDIT: https://github.com/eslint/eslint/issues/10341#issuecomment-468548031
+  ],
+
   parserOptions: {
-    ecmaVersion: 2022,
+    ecmaVersion: 'latest', // ecmaVersion: 2022, // EDIT
     ecmaFeatures: {
       jsx: true
     },
@@ -60,9 +64,9 @@ module.exports = {
     curly: ['error', 'multi-line'],
     'default-case-last': 'error',
     'dot-location': ['error', 'property'],
-    'dot-notation': ['error', { allowKeywords: true }],
+    // 'dot-notation': ['error', { allowKeywords: true }], // EDIT
     'eol-last': 'error',
-    eqeqeq: ['error', 'always', { null: 'ignore' }],
+    'eqeqeq': ['error', 'always', { null: 'ignore' }],
     'func-call-spacing': ['error', 'never'],
     'generator-star-spacing': ['error', { before: true, after: true }],
     indent: ['error', 2, {
@@ -79,12 +83,12 @@ module.exports = {
       flatTernaryExpressions: false,
       ignoreComments: false,
       ignoredNodes: ['TemplateLiteral *', 'JSXElement', 'JSXElement > *', 'JSXAttribute', 'JSXIdentifier', 'JSXNamespacedName', 'JSXMemberExpression', 'JSXSpreadAttribute', 'JSXExpressionContainer', 'JSXOpeningElement', 'JSXClosingElement', 'JSXFragment', 'JSXOpeningFragment', 'JSXClosingFragment', 'JSXText', 'JSXEmptyExpression', 'JSXSpreadChild'],
-      offsetTernaryExpressions: true
+      offsetTernaryExpressions: false // offsetTernaryExpressions: true // EDIT
     }],
     'key-spacing': ['error', { beforeColon: false, afterColon: true }],
     'keyword-spacing': ['error', { before: true, after: true }],
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
-    'multiline-ternary': ['error', 'always-multiline'],
+    // 'multiline-ternary': ['error', 'always-multiline'], // EDIT
     'new-cap': ['error', { newIsCap: true, capIsNew: false, properties: true }],
     'new-parens': 'error',
     'no-array-constructor': 'error',
@@ -194,14 +198,14 @@ module.exports = {
     'no-with': 'error',
     'object-curly-newline': ['error', { multiline: true, consistent: true }],
     'object-curly-spacing': ['error', 'always'],
-    'object-property-newline': ['error', { allowMultiplePropertiesPerLine: true }],
+    // 'object-property-newline': ['error', { allowMultiplePropertiesPerLine: true }], // EDIT
     'one-var': ['error', { initialized: 'never' }],
     'operator-linebreak': ['error', 'after', { overrides: { '?': 'before', ':': 'before', '|>': 'before' } }],
     'padded-blocks': ['error', { blocks: 'never', switches: 'never', classes: 'never' }],
     'prefer-const': ['error', { destructuring: 'all' }],
     'prefer-promise-reject-errors': 'error',
     'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
-    'quote-props': ['error', 'as-needed'],
+    'quote-props': ['error', 'as-needed', { unnecessary: false }], // 'quote-props': ['error', 'as-needed'], // EDIT
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     'rest-spread-spacing': ['error', 'never'],
     semi: ['error', 'never'],
@@ -234,6 +238,9 @@ module.exports = {
     'import/no-duplicates': 'error',
     'import/no-named-default': 'error',
     'import/no-webpack-loader-syntax': 'error',
+
+    'import/group-exports': 'error', // EDIT: add
+    'import/no-mutable-exports': 'error', // EDIT: add
 
     'n/handle-callback-err': ['error', '^(err|error)$'],
     'n/no-callback-literal': 'error',
