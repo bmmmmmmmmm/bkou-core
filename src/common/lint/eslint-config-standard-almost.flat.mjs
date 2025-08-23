@@ -9,12 +9,12 @@
  * https://github.com/standard/standard/issues/1948
  */
 
-import pluginN from 'eslint-plugin-n'
-import * as pluginImport from 'eslint-plugin-import'
-import pluginPromise from 'eslint-plugin-promise'
-import tsParser from '@typescript-eslint/parser'
-import * as pluginTypescript from '@typescript-eslint/eslint-plugin'
-import globals from 'globals'
+import pluginN from 'eslint-plugin-n';
+import * as pluginImport from 'eslint-plugin-import';
+import pluginPromise from 'eslint-plugin-promise';
+import tsParser from '@typescript-eslint/parser';
+import * as pluginTypescript from '@typescript-eslint/eslint-plugin';
+import globals from 'globals';
 
 const config = [
   {
@@ -311,6 +311,6 @@ const config = [
       '@typescript-eslint/prefer-namespace-keyword': 'error',
       '@typescript-eslint/triple-slash-reference': 'error'
     }
-  }]
+  }];
 
-export default config
+export default config;
