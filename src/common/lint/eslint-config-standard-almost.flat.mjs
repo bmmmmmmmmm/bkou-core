@@ -1,5 +1,9 @@
+// TODO: sort @typescript-eslint/recommended
+// TODO: sort https://github.com/typescript-eslint/typescript-eslint/blob/v8.40.0/packages/eslint-plugin/src/configs/eslint-recommended-raw.ts
+
 /**
  * https://github.com/standard/eslint-config-standard/blob/60d408b04723fb7cd743f6be7c5c01bb3f729139/src/index.ts
+ * https://github.com/typescript-eslint/typescript-eslint/blob/v8.40.0/packages/eslint-plugin/src/configs/flat/recommended.ts
  * ==============================================================================================================
  * https://github.com/standard/eslint-config-standard/issues/351
  * https://github.com/standard/standard/issues/1948
@@ -8,6 +12,8 @@
 import pluginN from 'eslint-plugin-n'
 import * as pluginImport from 'eslint-plugin-import'
 import pluginPromise from 'eslint-plugin-promise'
+import tsParser from '@typescript-eslint/parser'
+import * as pluginTypescript from '@typescript-eslint/eslint-plugin'
 import globals from 'globals'
 
 const config = [
@@ -18,6 +24,7 @@ const config = [
   },
   {
     languageOptions: {
+      parser: tsParser, // EDIT: add
       ecmaVersion: 'latest', // ecmaVersion: 2022, // EDIT
       sourceType: 'module',
 
@@ -37,7 +44,8 @@ const config = [
     plugins: {
       n: pluginN,
       promise: pluginPromise,
-      import: pluginImport
+      import: pluginImport,
+      '@typescript-eslint': pluginTypescript // EDIT: add
     },
 
     rules: {
@@ -117,7 +125,7 @@ const config = [
       // 'multiline-ternary': ['error', 'always-multiline'], // EDIT
       'new-cap': ['error', { newIsCap: true, capIsNew: false, properties: true }],
       'new-parens': 'error',
-      'no-array-constructor': 'error',
+      // 'no-array-constructor': 'error', // EDIT: dupe in typescript
       'no-async-promise-executor': 'error',
       'no-caller': 'error',
       'no-case-declarations': 'error',
@@ -201,17 +209,17 @@ const config = [
       'no-unreachable-loop': 'error',
       'no-unsafe-finally': 'error',
       'no-unsafe-negation': 'error',
-      'no-unused-expressions': ['error', {
-        allowShortCircuit: true,
-        allowTernary: true,
-        allowTaggedTemplates: true
-      }],
-      'no-unused-vars': ['error', {
-        args: 'none',
-        caughtErrors: 'none',
-        ignoreRestSiblings: true,
-        vars: 'all'
-      }],
+      // 'no-unused-expressions': ['error', {
+      //   allowShortCircuit: true,
+      //   allowTernary: true,
+      //   allowTaggedTemplates: true
+      // }], // EDIT: dupe in typescript
+      // 'no-unused-vars': ['error', {
+      //   args: 'none',
+      //   caughtErrors: 'none',
+      //   ignoreRestSiblings: true,
+      //   vars: 'all'
+      // }], // EDIT: dupe in typescript
       'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
       'no-useless-call': 'error',
       'no-useless-computed-key': 'error',
@@ -276,7 +284,32 @@ const config = [
       'n/no-path-concat': 'error',
       'n/process-exit-as-throw': 'error',
 
-      'promise/param-names': 'error'
+      'promise/param-names': 'error',
+
+      // EDIT: add typescript
+      '@typescript-eslint/ban-ts-comment': 'error',
+      'no-array-constructor': 'off',
+      '@typescript-eslint/no-array-constructor': 'error',
+      '@typescript-eslint/no-duplicate-enum-values': 'error',
+      '@typescript-eslint/no-empty-object-type': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-extra-non-null-assertion': 'error',
+      '@typescript-eslint/no-misused-new': 'error',
+      '@typescript-eslint/no-namespace': 'error',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
+      '@typescript-eslint/no-require-imports': 'error',
+      '@typescript-eslint/no-this-alias': 'error',
+      '@typescript-eslint/no-unnecessary-type-constraint': 'error',
+      '@typescript-eslint/no-unsafe-declaration-merging': 'error',
+      '@typescript-eslint/no-unsafe-function-type': 'error',
+      'no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-expressions': 'error',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-wrapper-object-types': 'error',
+      '@typescript-eslint/prefer-as-const': 'error',
+      '@typescript-eslint/prefer-namespace-keyword': 'error',
+      '@typescript-eslint/triple-slash-reference': 'error'
     }
   }]
 

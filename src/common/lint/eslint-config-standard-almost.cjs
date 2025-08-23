@@ -1,11 +1,17 @@
+// TODO: sort @typescript-eslint/recommended
+// TODO: sort https://github.com/typescript-eslint/typescript-eslint/blob/v8.40.0/packages/eslint-plugin/src/configs/eslint-recommended-raw.ts
+
 /**
  * https://github.com/standard/eslint-config-standard/blob/v17.1.0/.eslintrc.json
+ * https://github.com/typescript-eslint/typescript-eslint/blob/v8.40.0/packages/eslint-plugin/src/configs/eslintrc/recommended.ts
  */
 
 module.exports = {
   ignorePatterns: [
     '!.*', 'node_modules' // EDIT: https://github.com/eslint/eslint/issues/10341#issuecomment-468548031
   ],
+
+  parser: '@typescript-eslint/parser', // EDIT: add
 
   parserOptions: {
     ecmaVersion: 'latest', // ecmaVersion: 2022, // EDIT
@@ -23,7 +29,8 @@ module.exports = {
   plugins: [
     'import',
     'n',
-    'promise'
+    'promise',
+    '@typescript-eslint' // EDIT: add
   ],
 
   globals: {
@@ -91,7 +98,7 @@ module.exports = {
     // 'multiline-ternary': ['error', 'always-multiline'], // EDIT
     'new-cap': ['error', { newIsCap: true, capIsNew: false, properties: true }],
     'new-parens': 'error',
-    'no-array-constructor': 'error',
+    // 'no-array-constructor': 'error', // EDIT: dupe in typescript
     'no-async-promise-executor': 'error',
     'no-caller': 'error',
     'no-case-declarations': 'error',
@@ -175,17 +182,17 @@ module.exports = {
     'no-unreachable-loop': 'error',
     'no-unsafe-finally': 'error',
     'no-unsafe-negation': 'error',
-    'no-unused-expressions': ['error', {
-      allowShortCircuit: true,
-      allowTernary: true,
-      allowTaggedTemplates: true
-    }],
-    'no-unused-vars': ['error', {
-      args: 'none',
-      caughtErrors: 'none',
-      ignoreRestSiblings: true,
-      vars: 'all'
-    }],
+    // 'no-unused-expressions': ['error', {
+    //   allowShortCircuit: true,
+    //   allowTernary: true,
+    //   allowTaggedTemplates: true
+    // }], // EDIT: dupe in typescript
+    // 'no-unused-vars': ['error', {
+    //   args: 'none',
+    //   caughtErrors: 'none',
+    //   ignoreRestSiblings: true,
+    //   vars: 'all'
+    // }], // EDIT: dupe in typescript
     'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',
@@ -250,6 +257,31 @@ module.exports = {
     'n/no-path-concat': 'error',
     'n/process-exit-as-throw': 'error',
 
-    'promise/param-names': 'error'
+    'promise/param-names': 'error',
+
+    // EDIT: add typescript
+    '@typescript-eslint/ban-ts-comment': 'error',
+    'no-array-constructor': 'off',
+    '@typescript-eslint/no-array-constructor': 'error',
+    '@typescript-eslint/no-duplicate-enum-values': 'error',
+    '@typescript-eslint/no-empty-object-type': 'error',
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-extra-non-null-assertion': 'error',
+    '@typescript-eslint/no-misused-new': 'error',
+    '@typescript-eslint/no-namespace': 'error',
+    '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
+    '@typescript-eslint/no-require-imports': 'error',
+    '@typescript-eslint/no-this-alias': 'error',
+    '@typescript-eslint/no-unnecessary-type-constraint': 'error',
+    '@typescript-eslint/no-unsafe-declaration-merging': 'error',
+    '@typescript-eslint/no-unsafe-function-type': 'error',
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-wrapper-object-types': 'error',
+    '@typescript-eslint/prefer-as-const': 'error',
+    '@typescript-eslint/prefer-namespace-keyword': 'error',
+    '@typescript-eslint/triple-slash-reference': 'error'
   }
 }
