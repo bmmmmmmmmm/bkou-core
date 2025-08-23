@@ -1,5 +1,6 @@
 // TODO: sort @typescript-eslint/recommended
 // TODO: sort https://github.com/typescript-eslint/typescript-eslint/blob/v8.40.0/packages/eslint-plugin/src/configs/eslint-recommended-raw.ts
+// TODO: Vue
 
 /**
  * https://github.com/standard/eslint-config-standard/blob/60d408b04723fb7cd743f6be7c5c01bb3f729139/src/index.ts
