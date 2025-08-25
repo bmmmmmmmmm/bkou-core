@@ -59,11 +59,11 @@ module.exports = {
       ignoreGlobals: true
     }],
     'comma-dangle': ['error', {
-      arrays: 'never',
-      objects: 'never',
-      imports: 'never',
-      exports: 'never',
-      functions: 'never'
+      arrays: 'always-multiline', // 'never' EDIT
+      objects: 'always-multiline', // 'never' EDIT
+      imports: 'always-multiline', // 'never' EDIT
+      exports: 'always-multiline', // 'never' EDIT
+      functions: 'always-multiline' // 'never' EDIT
     }],
     'comma-spacing': ['error', { before: false, after: true }],
     'comma-style': ['error', 'last'],
