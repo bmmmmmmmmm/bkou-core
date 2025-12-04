@@ -4,6 +4,7 @@
   "description": "===",
   "author": "BKou",
   "license": "ISC",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "jest",
