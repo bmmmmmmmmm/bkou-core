@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "noEmit": false,
-    "composite": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "allowJs": true,
-    "rootDir": "./src/",
-    "outDir": "./dist/",
-    "baseUrl": "src"
+    "declaration": true,
+    "declarationMap": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": "./src"
   },
-  "include": ["./src"]
+  "include": ["src"],
+  "exclude": ["**/*.cjs", "**/*.mjs"]
 }
