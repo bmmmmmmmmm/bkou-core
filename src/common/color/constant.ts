@@ -1,4 +1,4 @@
-import { createMapFromArrays } from "common/data/map"
+import { createMapFromArrays } from 'common/data/map'
 
 enum COLOR_TYPE {
   NAMED_COLOR = 'named-color',
@@ -59,10 +59,10 @@ type TypeHex8 = `#${string}`
 
 type TypeNamedColor = string
 
-export {
+export type {
   TypeHex3, TypeHex6, TypeHex8,
   TypeRgb, TypeRgba,
-  TypeNamedColor
+  TypeNamedColor,
 }
 
 /**
@@ -98,7 +98,7 @@ export {
  * 'rgba(10% /50%)'
  * 'rgba(10%/50%)'
  * 'rgba(10%/ 50%)'
- * 
+ *
  * HEX3
  * '#aaa'
  * '#333'
@@ -106,5 +106,5 @@ export {
  * '#www'
  * '#aaaa'
  * 'aaa'
- * 
+ *
  */

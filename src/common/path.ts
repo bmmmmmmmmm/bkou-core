@@ -2,7 +2,7 @@
  * 判断是否为绝对路径
  * @deprecated TODO: 有待完善
  */
-function isAbsolutePath(path) {
+function isAbsolutePath (path) {
   // Unix/Linux 绝对路径
   const unixPattern = /^\/.*/; // 以 / 开头
   // Windows 绝对路径
@@ -14,12 +14,12 @@ function isAbsolutePath(path) {
  * 判断是否为相对路径
  * @deprecated TODO: 有待完善
  */
-function isRelativePath(path) {
-    // Unix/Linux 相对路径
-    const unixPattern = /^(?!\/)(?!$).+/; // 不以 / 开头且至少有一个字符
-    // Windows 相对路径
-    const windowsPattern = /^(?![a-zA-Z]:\\)(?!$).+/; // 不以驱动器字母和冒号开头且至少有一个字符
-    return !isAbsolutePath(path) && (unixPattern.test(path) || windowsPattern.test(path));
+function isRelativePath (path) {
+  // Unix/Linux 相对路径
+  const unixPattern = /^(?!\/)(?!$).+/; // 不以 / 开头且至少有一个字符
+  // Windows 相对路径
+  const windowsPattern = /^(?![a-zA-Z]:\\)(?!$).+/; // 不以驱动器字母和冒号开头且至少有一个字符
+  return !isAbsolutePath(path) && (unixPattern.test(path) || windowsPattern.test(path));
 }
 
 const _pathTest = (str) => {
@@ -45,5 +45,5 @@ const _ = () => {
 
 export {
   isAbsolutePath,
-  isRelativePath
+  isRelativePath,
 };

@@ -7,10 +7,10 @@
  * @param shallow shallow compare
  * @returns
  */
-function isEqual(obj1: any, obj2: any, shallow = false): boolean {
+function isEqual (obj1: any, obj2: any, shallow = false): boolean {
   // https://github.com/mapbox/mapbox-gl-js/pull/5979/files#diff-fde7145050c47cc3a306856efd5f9c3016e86e859de9afbd02c879be5067e58f
   const refSet = new Set<any>();
-  function deepEqual(a: any, b: any, level = 1): boolean {
+  function deepEqual (a: any, b: any, level = 1): boolean {
     const circular = refSet.has(a);
     // warning(!circular, 'Warning: There may be circular references');
     if (circular) {

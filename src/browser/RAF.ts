@@ -11,7 +11,7 @@ let rafUUID = 0;
 
 const rafIds = new Map<number, number>();
 
-function cleanup(id: number) {
+function cleanup (id: number) {
   rafIds.delete(id);
 }
 
@@ -19,7 +19,7 @@ const wrapperRaf = (callback: () => void, times = 1): number => {
   rafUUID += 1;
   const id = rafUUID;
 
-  function callRef(leftTimes: number) {
+  function callRef (leftTimes: number) {
     if (leftTimes === 0) {
       // Clean up
       cleanup(id);

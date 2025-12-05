@@ -7,23 +7,23 @@ import {
   MILLI_PER_MONTH,
   MILLI_PER_YEAR,
   TU2M_MAP,
-} from "./constant";
+} from './constant';
 
-function timeIntervalFormat(date, fineness: TimeUnit = "year") {
+function timeIntervalFormat (date, fineness: TimeUnit = 'year') {
   let t = Date.now() - new Date(date || Date.now()).getTime();
 
-  if (Number.isNaN(t)) return "";
+  if (Number.isNaN(t)) return '';
 
   const f = TU2M_MAP.get(fineness) || MILLI_PER_YEAR;
   const l = [
-    { n: "年", s: MILLI_PER_YEAR },
-    { n: "个月", s: MILLI_PER_MONTH },
-    { n: "天", s: MILLI_PER_DAY },
-    { n: "小时", s: MILLI_PER_HOUR },
-    { n: "分钟", s: MILLI_PER_MINUTE },
-    { n: "秒", s: MILLI_PER_SECOND },
+    { n: '年', s: MILLI_PER_YEAR },
+    { n: '个月', s: MILLI_PER_MONTH },
+    { n: '天', s: MILLI_PER_DAY },
+    { n: '小时', s: MILLI_PER_HOUR },
+    { n: '分钟', s: MILLI_PER_MINUTE },
+    { n: '秒', s: MILLI_PER_SECOND },
   ].filter(({ s }) => s <= f);
-  const p = t > 0 ? "前" : "后";
+  const p = t > 0 ? '前' : '后';
   t = Math.abs(t);
 
   for (let i = 0; i < l.length; i++) {
@@ -33,7 +33,7 @@ function timeIntervalFormat(date, fineness: TimeUnit = "year") {
       return `${v}${n}${p}`;
     }
   }
-  return "刚刚";
+  return '刚刚';
 }
 
 export {

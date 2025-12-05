@@ -2,13 +2,13 @@ type DateD8 =
   `${number}${number}${number}${number}${number}${number}${number}${number}`;
 
 type TimeUnit =
-  | "milli"
-  | "second"
-  | "minute"
-  | "hour"
-  | "day"
-  | "month"
-  | "year";
+  | 'milli'
+  | 'second'
+  | 'minute'
+  | 'hour'
+  | 'day'
+  | 'month'
+  | 'year';
 
 const MILLI_PER_SECOND = 1000;
 const MILLI_PER_MINUTE = MILLI_PER_SECOND * 60;
@@ -25,13 +25,13 @@ const MILLI_TO_MONTH = 1 / MILLI_PER_MONTH;
 const MILLI_TO_YEAR = 1 / MILLI_PER_YEAR;
 
 const TU2M_MAP = new Map<string, number>([
-  ["milli", 1],
-  ["second", MILLI_PER_SECOND],
-  ["minute", MILLI_PER_MINUTE],
-  ["hour", MILLI_PER_HOUR],
-  ["day", MILLI_PER_DAY],
-  ["month", MILLI_PER_MONTH],
-  ["year", MILLI_PER_YEAR],
+  ['milli', 1],
+  ['second', MILLI_PER_SECOND],
+  ['minute', MILLI_PER_MINUTE],
+  ['hour', MILLI_PER_HOUR],
+  ['day', MILLI_PER_DAY],
+  ['month', MILLI_PER_MONTH],
+  ['year', MILLI_PER_YEAR],
 ]);
 
 export {
