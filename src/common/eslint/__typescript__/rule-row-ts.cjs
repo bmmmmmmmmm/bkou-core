@@ -32,7 +32,7 @@ const tsRules = {
   '@typescript-eslint/no-array-constructor': 'error',
   '@typescript-eslint/no-duplicate-enum-values': 'error',
   '@typescript-eslint/no-empty-object-type': 'error',
-  '@typescript-eslint/no-explicit-any': 'error',
+  '@typescript-eslint/no-explicit-any': 'off', // '@typescript-eslint/no-explicit-any': 'error', // EDIT
   '@typescript-eslint/no-extra-non-null-assertion': 'error',
   '@typescript-eslint/no-misused-new': 'error',
   '@typescript-eslint/no-namespace': 'error',
@@ -43,7 +43,10 @@ const tsRules = {
   '@typescript-eslint/no-unsafe-declaration-merging': 'error',
   '@typescript-eslint/no-unsafe-function-type': 'error',
   'no-unused-expressions': 'off',
-  '@typescript-eslint/no-unused-expressions': 'error',
+  '@typescript-eslint/no-unused-expressions': ['error', {
+    'allowShortCircuit': true,
+    'allowTernary': true,
+  }], // '@typescript-eslint/no-unused-expressions': 'error', // EDIT
   'no-unused-vars': 'off',
   '@typescript-eslint/no-unused-vars': 'error',
   '@typescript-eslint/no-wrapper-object-types': 'error',
