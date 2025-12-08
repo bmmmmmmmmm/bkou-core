@@ -7,8 +7,9 @@ import baseRules from './rule-row-base.cjs';
 
 const baseConfig = [
   {
-    ignores: [
-      '!.*', 'node_modules', // EDIT: https://github.com/eslint/eslint/issues/10341#issuecomment-468548031
+    ignores: [ // EDIT: https://github.com/eslint/eslint/issues/10341#issuecomment-468548031
+      '!.*', 'node_modules',
+      'dist/', 'build/',
     ],
   },
   {
