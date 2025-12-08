@@ -1,5 +1,5 @@
 - [ ] 设计模式
 - [ ] 看 jest 源码，自己实现
 - [ ] 使用 jest 风格实现 runKit
-- [ ] 迁移 clock, log 等
-- [ ] pack
+- [x] 迁移 clock, log 等 -- 2025.12.05
+- [x] pack -- 2025.12.05
