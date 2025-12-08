@@ -33,15 +33,19 @@ const postLine = '\n======= [ BK ] =======';
 const preStr = '==[ BK ]== ';
 const postStr = '';
 
-// example: colorLog('hello world', ['red', 'boild', 'underline', 'yellow-bg']);
-// example: colorLog(['hello', 'world'], 'green');
-const colorLog = (params: string | string[], style?: LogStyle | LogStyle[]) => {
+/**
+ * @example
+ * colorLog('hello world', 'green');
+ * colorLog(['hello', 'world'], ['red', 'boild', 'underline', 'yellow-bg']);
+ */
+const colorLog = (params: string | string[], style?: LogStyle | LogStyle[], log = console.log) => {
   const message = (Array.isArray(params) ? params.join('\n') : params).trim();
   const pre = Array.isArray(params) ? preLine : preStr;
   const post = Array.isArray(params) ? postLine : postStr;
-  if (!style) return console.log(`${pre}${message}${post}`);
+  const output = `${pre}${message}${post}`;
+  if (!style) return log(output);
   const styleLog = Array.isArray(style) ? style.map(s => logStyleMap.get(s)).join(';') : logStyleMap.get(style);
-  console.log(`\x1B[${styleLog}m%s\x1B[0m`, `${pre}${message}${post}`);
+  log(`\x1B[${styleLog}m%s\x1B[0m`, output);
 };
 
 export {
