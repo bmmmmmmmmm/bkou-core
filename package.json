@@ -6,10 +6,10 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "rm -rf dist && node scripts/build.js",
     "test": "jest",
     "clear:dist": "rm -rf dist",
-    "rebuild": "npm run clear:dist && npm run build",
+    "rebuild": "npm run build",
     "// dev": "npm run rebuild",
     "version:patch": "npm version patch --no-git-tag-version",
     "release": "npm run rebuild && npm run version:patch && npm publish"
