@@ -11,6 +11,7 @@ const tsRules = {
   'no-dupe-keys': 'off', // ts(1117)
   'no-func-assign': 'off', // ts(2630)
   'no-import-assign': 'off', // ts(2632) & ts(2540)
+  'eqeqeq': ['error', 'always', { null: 'ignore' }], // EDIT: add
   // TODO - remove this once we no longer support ESLint v8
   'no-new-native-nonconstructor': 'off', // ts(7009)
   'no-new-symbol': 'off', // ts(7009)

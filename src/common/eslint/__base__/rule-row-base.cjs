@@ -37,7 +37,7 @@ const baseRules = {
   'dot-location': ['error', 'property'],
   // 'dot-notation': ['error', { allowKeywords: true }], // EDIT
   'eol-last': 'error',
-  'eqeqeq': ['error', 'always', { null: 'ignore' }],
+  // 'eqeqeq': ['error', 'always', { null: 'ignore' }], // EDIT
   'func-call-spacing': ['error', 'never'],
   'generator-star-spacing': ['error', { before: true, after: true }],
   'indent': ['error', 2, {
@@ -177,7 +177,7 @@ const baseRules = {
   'prefer-promise-reject-errors': 'error',
   'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
   'quote-props': ['error', 'as-needed', { unnecessary: false }], // 'quote-props': ['error', 'as-needed'], // EDIT
-  'quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
+  'quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }], // 'quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
   'rest-spread-spacing': ['error', 'never'],
   // 'semi': ['error', 'never'], // EDIT
   'semi-spacing': ['error', { before: false, after: true }],
