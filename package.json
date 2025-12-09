@@ -17,6 +17,9 @@
   "files": [
     "dist"
   ],
+  "bin": {
+    "bkou-eslint-init": "./dist/common/eslint/init.js"
+  },
   "exports": {
     "./*": "./dist/*"
   },
