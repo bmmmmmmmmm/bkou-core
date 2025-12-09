@@ -32,7 +32,9 @@ async function main () {
   await build({
     entry: [...tsFilesToBuild, ...jsFilesToBuild],
     format: ['esm'],
-    dts: true,
+    dts: {
+      entry: tsFilesToBuild,
+    },
     outDir: 'dist',
     splitting: false,
     clean: false,
