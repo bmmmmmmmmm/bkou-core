@@ -16,9 +16,17 @@ const parseArgs = (argv, options = {}) => {
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]
 
+    // -- => {_:[...]}
+    if (arg === '--') {
+      result._.push(...args.slice(i + 1))
+      break
+    }
+
     // --key=value => {key: value}
-    if (arg.startsWith('--') && arg.includes('=')) {
-      const [key, value] = arg.slice(2).split('=')
+    else if (arg.startsWith('--') && arg.includes('=')) {
+      const equalIndex = arg.indexOf('=')
+      const key = arg.slice(2, equalIndex)
+      const value = arg.slice(equalIndex + 1)
       const finalKey = aliases[key] || key
       result[finalKey] = value
     }
@@ -46,6 +54,7 @@ const parseArgs = (argv, options = {}) => {
       }
     }
 
+    // {_: [...]}
     else {
       result._.push(arg)
     }
