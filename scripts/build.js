@@ -76,6 +76,7 @@ async function main () {
   const jsFilesSet = new Set(jsFilesToBuild)
   const filesToCopy = allFiles.filter(file => {
     const ext = path.extname(file)
+    if (file.includes('.test.') || file.includes('.spec.')) return false
     if (ext === '.ts') return false
     if (ext === '.cjs' || ext === '.mjs') return false
     if (ext === '.js' && jsFilesSet.has(file)) return false
