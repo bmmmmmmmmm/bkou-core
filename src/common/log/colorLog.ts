@@ -28,9 +28,13 @@ const logStyleMap = new Map<LogStyle, string>([
   ['white-bg', '47'],
 ]);
 
-const preLine = '======= [ BK ] =======\n';
-const postLine = '\n======= [ BK ] =======';
-const preStr = '==[ BK ]== ';
+// const preLine = '======= [ BK ] =======\n';
+// const postLine = '\n======= [ BK ] =======';
+// const preStr = '==[ BK ]== ';
+// const postStr = '';
+const preLine = '';
+const postLine = '';
+const preStr = '';
 const postStr = '';
 
 /**
@@ -39,13 +43,13 @@ const postStr = '';
  * colorLog(['hello', 'world'], ['red', 'boild', 'underline', 'yellow-bg']);
  */
 const colorLog = (params: string | string[], style?: LogStyle | LogStyle[], log = console.log) => {
-  const message = (Array.isArray(params) ? params.join('\n') : params).trim();
+  const message = Array.isArray(params) ? params.join('\n') : params;
   const pre = Array.isArray(params) ? preLine : preStr;
   const post = Array.isArray(params) ? postLine : postStr;
   const output = `${pre}${message}${post}`;
   if (!style) return log(output);
   const styleLog = Array.isArray(style) ? style.map(s => logStyleMap.get(s)).join(';') : logStyleMap.get(style);
-  log(`\x1B[${styleLog}m%s\x1B[0m`, output);
+  log(`\x1B[${styleLog}m${output}\x1B[0m`);
 };
 
 export {
