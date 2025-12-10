@@ -9,7 +9,7 @@ const baseConfig = [
   {
     ignores: [ // EDIT: https://github.com/eslint/eslint/issues/10341#issuecomment-468548031
       '!.*', 'node_modules',
-      'dist/', 'build/',
+      'dist/', 'build/', 'output_*/',
     ],
   },
   {
