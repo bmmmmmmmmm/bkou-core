@@ -152,10 +152,14 @@ const baseRules = {
     allowTaggedTemplates: true,
   }],
   'no-unused-vars': ['error', {
-    args: 'none',
-    caughtErrors: 'none',
+    args: 'all', // args: 'none', // EDIT
+    argsIgnorePattern: '^_', // EDIT: add
+    caughtErrors: 'all', // caughtErrors: 'none', // EDIT
+    caughtErrorsIgnorePattern: '^_', // EDIT: add
+    destructuredArrayIgnorePattern: '^_', // EDIT: add
     ignoreRestSiblings: true,
     vars: 'all',
+    varsIgnorePattern: '^_', // EDIT: add
   }],
   'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
   'no-useless-call': 'error',

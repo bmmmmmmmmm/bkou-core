@@ -49,7 +49,16 @@ const tsRules = {
     'allowTernary': true,
   }], // '@typescript-eslint/no-unused-expressions': 'error', // EDIT
   'no-unused-vars': 'off',
-  '@typescript-eslint/no-unused-vars': 'error',
+  '@typescript-eslint/no-unused-vars': ['error', {
+    args: 'all',
+    argsIgnorePattern: '^_',
+    caughtErrors: 'all',
+    caughtErrorsIgnorePattern: '^_',
+    destructuredArrayIgnorePattern: '^_',
+    ignoreRestSiblings: true,
+    vars: 'all',
+    varsIgnorePattern: '^_',
+  }], // '@typescript-eslint/no-unused-vars': 'error', // EDIT
   '@typescript-eslint/no-wrapper-object-types': 'error',
   '@typescript-eslint/prefer-as-const': 'error',
   '@typescript-eslint/prefer-namespace-keyword': 'error',
