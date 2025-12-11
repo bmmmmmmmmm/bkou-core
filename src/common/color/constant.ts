@@ -57,10 +57,15 @@ type TypeHex3 = `#${string}`
 type TypeHex6 = `#${string}`
 type TypeHex8 = `#${string}`
 
+type TypeHex3V = string
+type TypeHex6V = string
+type TypeHex8V = string
+
 type TypeNamedColor = string
 
 export type {
   TypeHex3, TypeHex6, TypeHex8,
+  TypeHex3V, TypeHex6V, TypeHex8V,
   TypeRgb, TypeRgba,
   TypeNamedColor,
 }

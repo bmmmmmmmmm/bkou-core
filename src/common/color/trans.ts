@@ -1,6 +1,6 @@
 // 8bit color
 const hex2Dec = (c) => {
-  if (RegExp(/^[a-f|0-9]+$/i).test(c)) {
+  if (/^[a-f|0-9]+$/i.test(c)) {
     return parseInt(c, 16)
   }
 }
@@ -8,9 +8,9 @@ const hex2Dec = (c) => {
 /**
  * @description RGBA 覆盖在 RGB 背景色上所呈现出的视觉 RGB 颜色
  * */
-const rgba2rgb = (RGBA_color, RGB_background) => { // RGBA_color and RGB_background are hex values, without the leading #
-  const ca = { r: hex2Dec(RGBA_color.substr(0, 2)), g: hex2Dec(RGBA_color.substr(2, 2)), b: hex2Dec(RGBA_color.substr(4, 2)), a: hex2Dec(RGBA_color.substr(6, 2)) / 255 }
-  const ba = { r: hex2Dec(RGB_background.substr(0, 2)), g: hex2Dec(RGB_background.substr(2, 2)), b: hex2Dec(RGB_background.substr(4, 2)) }
+const rgba2rgb = (RGBA, RGB) => { // RGBA_color and RGB_background are hex values, without the leading #
+  const ca = { r: hex2Dec(RGBA.substr(0, 2)), g: hex2Dec(RGBA.substr(2, 2)), b: hex2Dec(RGBA.substr(4, 2)), a: hex2Dec(RGBA.substr(6, 2)) / 255 }
+  const ba = { r: hex2Dec(RGB.substr(0, 2)), g: hex2Dec(RGB.substr(2, 2)), b: hex2Dec(RGB.substr(4, 2)) }
   let a = ca.a
   if (isNaN(a)) a = 1
   const modR = Math.round((1 - a) * ba.r + a * ca.r)
@@ -37,8 +37,14 @@ const getL = (HEX6) => {
 /**
  * @description 获取两个颜色的对比度，参考 https://www.w3.org/TR/WCAG20/#contrast-ratiodef
  */
-const getContrast = (HEX6A, HEX6B) => {
-  const L1 = getL(HEX6A)
-  const L2 = getL(HEX6B)
+const getContrast = (HEX6_A, HEX6_B) => {
+  const L1 = getL(HEX6_A)
+  const L2 = getL(HEX6_B)
   return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05)
+}
+
+export {
+  rgba2rgb,
+  getL,
+  getContrast,
 }
