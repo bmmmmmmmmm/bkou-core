@@ -1,4 +1,4 @@
-import { colorLog } from '../log/colorLog.js'
+import { colorLog } from 'log/colorLog.js'
 
 // ========== run() 函数测试 ==========
 import { run } from './run.js'

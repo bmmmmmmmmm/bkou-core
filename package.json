@@ -19,7 +19,7 @@
     "dist"
   ],
   "bin": {
-    "bkou-eslint-init": "./dist/common/eslint/init.js"
+    "bkou-eslint-init": "./dist/eslint/init.js"
   },
   "exports": {
     "./*": "./dist/*"

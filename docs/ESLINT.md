@@ -9,7 +9,7 @@
 ## 目录结构
 
 ```
-src/common/eslint/
+src/eslint/
 ├── __base__/           # 基础配置（JavaScript）
 │   ├── eslint-config-base.cjs       # ESLint 8 配置
 │   ├── eslint-config-base.flat.mjs  # ESLint 9+ Flat Config
@@ -80,9 +80,9 @@ src/common/eslint/
 // .eslintrc.cjs
 module.exports = {
   extends: [
-    '@bkou/core/common/eslint/__base__/eslint-config-base.cjs',
-    '@bkou/core/common/eslint/__typescript__/eslint-config-ts.cjs',
-    '@bkou/core/common/eslint/__react__/eslint-config-react.cjs',
+    '@bkou/core/eslint/__base__/eslint-config-base.cjs',
+    '@bkou/core/eslint/__typescript__/eslint-config-ts.cjs',
+    '@bkou/core/eslint/__react__/eslint-config-react.cjs',
   ],
 };
 ```
@@ -91,9 +91,9 @@ module.exports = {
 
 ```javascript
 // eslint.config.mjs
-import baseConfig from '@bkou/core/common/eslint/__base__/eslint-config-base.flat.mjs'
-import tsConfig from '@bkou/core/common/eslint/__typescript__/eslint-config-ts.flat.mjs'
-import reactConfig from '@bkou/core/common/eslint/__react__/eslint-config-react.flat.mjs'
+import baseConfig from '@bkou/core/eslint/__base__/eslint-config-base.flat.mjs'
+import tsConfig from '@bkou/core/eslint/__typescript__/eslint-config-ts.flat.mjs'
+import reactConfig from '@bkou/core/eslint/__react__/eslint-config-react.flat.mjs'
 
 export default [
   ...baseConfig,
@@ -118,7 +118,7 @@ export default [
 // .eslintrc.cjs
 module.exports = {
   extends: [
-    '@bkou/core/common/eslint/__base__/eslint-config-base.cjs',
+    '@bkou/core/eslint/__base__/eslint-config-base.cjs',
   ],
   rules: {
     // 覆盖规则
@@ -132,7 +132,7 @@ module.exports = {
 
 ```javascript
 // eslint.config.mjs
-import baseConfig from '@bkou/core/common/eslint/__base__/eslint-config-base.flat.mjs'
+import baseConfig from '@bkou/core/eslint/__base__/eslint-config-base.flat.mjs'
 
 export default [
   ...baseConfig,

@@ -1,6 +1,6 @@
 import { spawn /*, spawnSync */ } from 'child_process';
 import type { SpawnOptions, StdioOptions } from 'child_process'
-// import { colorLog } from '../log/colorLog.ts'
+// import { colorLog } from 'log/colorLog.ts'
 
 type RunOptions = SpawnOptions & {
   // inherit → 返回 null

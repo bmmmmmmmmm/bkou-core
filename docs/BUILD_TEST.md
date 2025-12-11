@@ -23,12 +23,12 @@ for file in output_test/**/*.test.js; do node "$file"; done
 
 ```bash
 # ❌ 无法直接运行 .ts 文件
-node src/common/runTask/run.test.ts
+node src/runTask/run.test.ts
 # Error: Unknown file extension ".ts"
 
 # 需要额外工具
-tsx src/common/runTask/run.test.ts        # 需要安装 tsx
-ts-node src/common/runTask/run.test.ts    # 需要安装 ts-node
+tsx src/runTask/run.test.ts        # 需要安装 tsx
+ts-node src/runTask/run.test.ts    # 需要安装 ts-node
 ```
 
 ### 解决方案：预编译测试文件
@@ -38,7 +38,7 @@ ts-node src/common/runTask/run.test.ts    # 需要安装 ts-node
 npm run build:test
 
 # 2. 直接运行编译后的 .js
-node output_test/common/runTask/run.test.js  # ✅ 可以运行
+node output_test/runTask/run.test.js  # ✅ 可以运行
 ```
 
 ## 构建流程
@@ -58,8 +58,8 @@ const testFiles = await glob('src/**/*.test.{ts,js}', {
 
 **找到的文件示例：**
 ```
-src/common/runTask/run.test.ts
-src/common/log/colorLog.test.ts
+src/runTask/run.test.ts
+src/log/colorLog.test.ts
 ```
 
 ### 步骤 2：编译测试文件
@@ -223,7 +223,7 @@ Sourcemap 记录了编译前后代码的对应关系，让你在调试时能看�
 **示例：**
 
 ```typescript
-// src/common/runTask/run.test.ts (原始代码)
+// src/runTask/run.test.ts (原始代码)
 const { stdout } = await run(['echo', 'test']).promise
 console.log(stdout.toString())  // ← 假设这里报错
 ```
@@ -238,7 +238,7 @@ console.log(stdout.toString());
 // output_test/runTask/run.test.js.map (sourcemap)
 {
   "mappings": "AAAA,MAAM,CAAC,MAAM...",
-  "sources": ["../../src/common/runTask/run.test.ts"],
+  "sources": ["../../src/runTask/run.test.ts"],
   ...
 }
 ```
@@ -257,8 +257,8 @@ node output_test/runTask/run.test.js
 ```bash
 node output_test/runTask/run.test.js
 # 报错：
-# Error at src/common/runTask/run.test.ts:15:8
-#     at async main (src/common/runTask/run.test.ts:42:3)
+# Error at src/runTask/run.test.ts:15:8
+#     at async main (src/runTask/run.test.ts:42:3)
 # 看到的是原始的 TypeScript！
 ```
 
@@ -318,13 +318,12 @@ node output_test/**/*.test.js
 
 ```
 src/
-  common/
-    log/
-      colorLog.ts
-      colorLog.test.ts      ← 测试文件
-    runTask/
-      run.ts
-      run.test.ts           ← 测试文件
+  log/
+    colorLog.ts
+    colorLog.test.ts      ← 测试文件
+  runTask/
+    run.ts
+    run.test.ts           ← 测试文件
 ```
 
 ### 输出（编译后）
@@ -387,7 +386,7 @@ output_test/
 **对比：**
 ```bash
 # 运行时编译（慢）
-tsx src/common/runTask/run.test.ts  # 每次都编译
+tsx src/runTask/run.test.ts  # 每次都编译
 
 # 预编译（快）
 npm run build:test                   # 只编译一次
@@ -467,7 +466,7 @@ outDir: 'test',  // 改成 test/
    import { run } from './run.js'
    
    // ✅ 正确：使用相对于 output_test 的路径
-   import { run } from '../dist/common/runTask/run.js'
+   import { run } from '../dist/runTask/run.js'
    ```
 
 2. **依赖未编译**
@@ -491,7 +490,7 @@ outDir: 'test',  // 改成 test/
 1. **减少入口文件数量**
    ```javascript
    // 只编译特定测试
-   const testFiles = ['src/common/runTask/run.test.ts']
+   const testFiles = ['src/runTask/run.test.ts']
    ```
 
 2. **禁用 sourcemap**（不推荐）

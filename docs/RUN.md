@@ -5,7 +5,7 @@
 ## 基本用法
 
 ```typescript
-import { run } from './common/runTask/run.js'
+import { run } from './runTask/run.js'
 
 // 最简单的用法
 await run(['echo', 'Hello World']).promise
@@ -301,7 +301,7 @@ await new Promise((resolve, reject) => {
 ### 使用 run（封装）
 
 ```typescript
-import { run } from './common/runTask/run.js'
+import { run } from './runTask/run.js'
 
 const { stdout, stderr } = await run('npm install').promise
 // 自动处理流收集、显示和错误
