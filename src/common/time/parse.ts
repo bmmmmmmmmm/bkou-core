@@ -1,4 +1,4 @@
-import type { DateD8 } from 'time/constant.ts'
+import type { DateD8 } from 'common/time/constant.ts'
 
 const getDateD8 = (offSet: number = 0): DateD8 => {
   const date = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * offSet)

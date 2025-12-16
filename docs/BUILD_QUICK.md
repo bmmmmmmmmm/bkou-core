@@ -22,11 +22,11 @@ npm run rebuild
 
 ```javascript
 // 导入工具函数
-import { isEqual } from '@bkou/core/data/isEqual'
+import { isEqual } from '@bkou/core/common/data/isEqual'
 import { isMobile } from '@bkou/core/browser/isMobile'
 
 // 导入 ESLint 配置
-import eslintConfig from '@bkou/core/eslint/__base__/eslint-config-base.cjs'
+import eslintConfig from '@bkou/core/dev/eslint/__base__/eslint-config-base.cjs'
 
 // 导入 CSS
 import '@bkou/core/browser/css/reset.css'
@@ -35,7 +35,7 @@ import '@bkou/core/browser/css/reset.css'
 ## 📝 注意事项
 
 **类型声明暂时关闭**
-当前构建脚本中 `dts: false`，因为源码中有类型错误（`src/time/parse.ts`）。修复源码错误后可以启用类型声明生成：
+当前构建脚本中 `dts: false`，因为源码中有类型错误（`src/common/time/parse.ts`）。修复源码错误后可以启用类型声明生成：
 
 ```javascript
 // scripts/build.js
@@ -55,7 +55,7 @@ dts: true,  // 改为 true
 ## ⚠️ 已知问题
 
 1. 源码类型错误需要修复：
-   - `src/time/parse.ts` - 缺少 `DateD8` 类型定义和 `offSet` 变量声明
+   - `src/common/time/parse.ts` - 缺少 `DateD8` 类型定义和 `offSet` 变量声明
 
 2. 修复后即可启用类型声明生成
 

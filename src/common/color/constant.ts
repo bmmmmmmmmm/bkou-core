@@ -1,4 +1,4 @@
-import { createMapFromArrays } from 'data/map'
+import { createMapFromArrays } from 'common/data/map'
 
 enum COLOR_TYPE {
   NAMED_COLOR = 'named-color',

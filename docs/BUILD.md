@@ -62,11 +62,13 @@ src/
     isMobile.ts
     css/
       reset.css
-  data/
-    isEqual.ts
-  eslint/
-    eslint-config-base.cjs
-    eslint-config-base.flat.mjs
+  common/
+    data/
+      isEqual.ts
+  dev/
+    eslint/
+      eslint-config-base.cjs
+      eslint-config-base.flat.mjs
 ```
 
 ### 构建后（dist/）
@@ -77,12 +79,14 @@ dist/
     isMobile.d.ts        (类型声明)
     css/
       reset.css          (原样)
-  data/
-    isEqual.js         (ESM, 压缩)
-    isEqual.d.ts       (类型声明)
-  eslint/
-    eslint-config-base.cjs      (CJS, 压缩)
-    eslint-config-base.flat.mjs (ESM, 压缩)
+  common/
+    data/
+      isEqual.js         (ESM, 压缩)
+      isEqual.d.ts       (类型声明)
+  dev/
+    eslint/
+      eslint-config-base.cjs      (CJS, 压缩)
+      eslint-config-base.flat.mjs (ESM, 压缩)
 ```
 
 ---
@@ -99,17 +103,17 @@ npm install @bkou/core
 #### 导入 TypeScript 编译的模块
 ```javascript
 // 从子路径导入
-import { isEqual } from '@bkou/core/data/isEqual'
+import { isEqual } from '@bkou/core/common/data/isEqual'
 import { isMobile } from '@bkou/core/browser/isMobile'
 ```
 
 #### 导入 ESLint 配置
 ```javascript
 // CommonJS 格式
-import eslintConfig from '@bkou/core/eslint/eslint-config-base.cjs'
+import eslintConfig from '@bkou/core/dev/eslint/eslint-config-base.cjs'
 
 // ESM 格式
-import eslintConfigFlat from '@bkou/core/eslint/eslint-config-base.flat.mjs'
+import eslintConfigFlat from '@bkou/core/dev/eslint/eslint-config-base.flat.mjs'
 ```
 
 #### 导入 CSS
@@ -204,8 +208,8 @@ export function isEqual(a,b){if(typeof a!==typeof b)return!1;return a===b}
 
 **支持的导入方式：**
 - `@bkou/core/browser/isMobile`
-- `@bkou/core/data/isEqual`
-- `@bkou/core/color/trans`
+- `@bkou/core/common/data/isEqual`
+- `@bkou/core/common/color/trans`
 
 ---
 

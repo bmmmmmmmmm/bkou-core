@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { writeFileSync } from 'node:fs'
 
-import { parseArgs } from 'cli/parseArgs.js'
-import { run } from 'runTask/run'
-import { colorLog } from 'log/colorLog'
+import { parseArgs } from 'cli/args/parseArgs.js'
+import { run } from 'cli/runTask/run'
+import { colorLog } from 'cli/log/colorLog'
 
 const config = parseArgs(process.argv, {
   flags: {
@@ -56,13 +56,13 @@ if (useReact) {
 }
 
 const extendsArray = [
-  `@bkou/core/eslint/__base__/eslint-config-base${configExt}`,
+  `@bkou/core/dev/eslint/__base__/eslint-config-base${configExt}`,
 ]
 if (useTypescript) {
-  extendsArray.push(`@bkou/core/eslint/__typescript__/eslint-config-ts${configExt}`)
+  extendsArray.push(`@bkou/core/dev/eslint/__typescript__/eslint-config-ts${configExt}`)
 }
 if (useReact) {
-  extendsArray.push(`@bkou/core/eslint/__react__/eslint-config-react${configExt}`)
+  extendsArray.push(`@bkou/core/dev/eslint/__react__/eslint-config-react${configExt}`)
 }
 
 let configContent
