@@ -11,7 +11,7 @@
 npm run build:test
 
 # 运行单个测试
-node output_test/log/colorLog.test.js
+node output_test/cli/log/colorLog.test.js
 
 # 运行所有测试
 for file in output_test/**/*.test.js; do node "$file"; done
@@ -23,12 +23,12 @@ for file in output_test/**/*.test.js; do node "$file"; done
 
 ```bash
 # ❌ 无法直接运行 .ts 文件
-node src/common/runTask/run.test.ts
+node src/cli/runTask/run.test.ts
 # Error: Unknown file extension ".ts"
 
 # 需要额外工具
-tsx src/common/runTask/run.test.ts        # 需要安装 tsx
-ts-node src/common/runTask/run.test.ts    # 需要安装 ts-node
+tsx src/cli/runTask/run.test.ts        # 需要安装 tsx
+ts-node src/cli/runTask/run.test.ts    # 需要安装 ts-node
 ```
 
 ### 解决方案：预编译测试文件
@@ -38,7 +38,7 @@ ts-node src/common/runTask/run.test.ts    # 需要安装 ts-node
 npm run build:test
 
 # 2. 直接运行编译后的 .js
-node output_test/common/runTask/run.test.js  # ✅ 可以运行
+node output_test/cli/runTask/run.test.js  # ✅ 可以运行
 ```
 
 ## 构建流程
@@ -58,8 +58,8 @@ const testFiles = await glob('src/**/*.test.{ts,js}', {
 
 **找到的文件示例：**
 ```
-src/common/runTask/run.test.ts
-src/common/log/colorLog.test.ts
+src/cli/runTask/run.test.ts
+src/cli/log/colorLog.test.ts
 ```
 
 ### 步骤 2：编译测试文件
@@ -82,20 +82,21 @@ await build({
 output_test/
   chunk-ABC123.js              ← 共享依赖（colorLog、run 等）
   chunk-DEF456.js              ← 其他共享模块
-  log/
-    colorLog.test.js           ← 编译后的测试
-    colorLog.test.js.map       ← sourcemap 文件
-  runTask/
-    run.test.js
-    run.test.js.map
+  cli/
+    log/
+      colorLog.test.js         ← 编译后的测试
+      colorLog.test.js.map     ← sourcemap 文件
+    runTask/
+      run.test.js
+      run.test.js.map
 ```
 
 ### 步骤 3：显示运行提示
 
 ```bash
 💡 运行测试:
-   node output_test/log/colorLog.test.js
-   node output_test/runTask/run.test.js
+   node output_test/cli/log/colorLog.test.js
+   node output_test/cli/runTask/run.test.js
 
 💡 或运行所有测试:
    node output_test/**/*.test.js
@@ -119,12 +120,12 @@ import { colorLog } from './colorLog.js'
 
 **未启用 splitting（问题）：**
 ```javascript
-// output_test/runTask/run.test.js
+// output_test/cli/runTask/run.test.js
 var logStyleMap = new Map([...])  // colorLog 完整实现（~50 行）
 var colorLog = (params, style) => { ... }
 // 测试代码...
 
-// output_test/log/colorLog.test.js
+// output_test/cli/log/colorLog.test.js
 var logStyleMap = new Map([...])  // 又一遍 colorLog（重复！）
 var colorLog = (params, style) => { ... }
 // 测试代码...
@@ -137,12 +138,12 @@ var logStyleMap = new Map([...])  // colorLog 只存在一份
 var colorLog = (params, style) => { ... }
 export { colorLog }
 
-// output_test/runTask/run.test.js
-import { colorLog } from '../chunk-ABC123.js'  // 引用共享模块
+// output_test/cli/runTask/run.test.js
+import { colorLog } from '../../chunk-ABC123.js'  // 引用共享模块
 // 测试代码...
 
-// output_test/log/colorLog.test.js
-import { colorLog } from '../chunk-ABC123.js'  // 引用共享模块
+// output_test/cli/log/colorLog.test.js
+import { colorLog } from '../../chunk-ABC123.js'  // 引用共享模块
 // 测试代码...
 ```
 
@@ -223,7 +224,7 @@ Sourcemap 记录了编译前后代码的对应关系，让你在调试时能看�
 **示例：**
 
 ```typescript
-// src/common/runTask/run.test.ts (原始代码)
+// src/cli/runTask/run.test.ts (原始代码)
 const { stdout } = await run(['echo', 'test']).promise
 console.log(stdout.toString())  // ← 假设这里报错
 ```
@@ -231,14 +232,14 @@ console.log(stdout.toString())  // ← 假设这里报错
 编译后：
 
 ```javascript
-// output_test/runTask/run.test.js (编译后)
+// output_test/cli/runTask/run.test.js (编译后)
 const { stdout } = await run(["echo", "test"]).promise;
 console.log(stdout.toString());
 
-// output_test/runTask/run.test.js.map (sourcemap)
+// output_test/cli/runTask/run.test.js.map (sourcemap)
 {
   "mappings": "AAAA,MAAM,CAAC,MAAM...",
-  "sources": ["../../src/common/runTask/run.test.ts"],
+  "sources": ["../../../src/cli/runTask/run.test.ts"],
   ...
 }
 ```
@@ -247,18 +248,18 @@ console.log(stdout.toString());
 
 **没有 sourcemap：**
 ```bash
-node output_test/runTask/run.test.js
+node output_test/cli/runTask/run.test.js
 # 报错：
-# Error at output_test/runTask/run.test.js:15
+# Error at output_test/cli/runTask/run.test.js:15
 # 看到的是编译后的 JavaScript
 ```
 
 **有 sourcemap：**
 ```bash
-node output_test/runTask/run.test.js
+node output_test/cli/runTask/run.test.js
 # 报错：
-# Error at src/common/runTask/run.test.ts:15:8
-#     at async main (src/common/runTask/run.test.ts:42:3)
+# Error at src/cli/runTask/run.test.ts:15:8
+#     at async main (src/cli/runTask/run.test.ts:42:3)
 # 看到的是原始的 TypeScript！
 ```
 
@@ -275,8 +276,8 @@ node output_test/runTask/run.test.js
 
 ```bash
 # 运行特定测试
-node output_test/log/colorLog.test.js
-node output_test/runTask/run.test.js
+node output_test/cli/log/colorLog.test.js
+node output_test/cli/runTask/run.test.js
 ```
 
 ### 批量运行
@@ -318,7 +319,7 @@ node output_test/**/*.test.js
 
 ```
 src/
-  common/
+  cli/
     log/
       colorLog.ts
       colorLog.test.ts      ← 测试文件
@@ -335,12 +336,13 @@ output_test/
   chunk-ABC123.js.map
   chunk-DEF456.js           ← 共享模块（run 实现）
   chunk-DEF456.js.map
-  log/
-    colorLog.test.js        ← 编译后的测试
-    colorLog.test.js.map    ← sourcemap
-  runTask/
-    run.test.js
-    run.test.js.map
+  cli/
+    log/
+      colorLog.test.js      ← 编译后的测试
+      colorLog.test.js.map  ← sourcemap
+    runTask/
+      run.test.js
+      run.test.js.map
 ```
 
 ## 与生产构建的对比
@@ -387,12 +389,12 @@ output_test/
 **对比：**
 ```bash
 # 运行时编译（慢）
-tsx src/common/runTask/run.test.ts  # 每次都编译
+tsx src/cli/runTask/run.test.ts  # 每次都编译
 
 # 预编译（快）
-npm run build:test                   # 只编译一次
-node output_test/runTask/run.test.js # 直接运行
-node output_test/runTask/run.test.js # 直接运行
+npm run build:test                         # 只编译一次
+node output_test/cli/runTask/run.test.js   # 直接运行
+node output_test/cli/runTask/run.test.js   # 直接运行
 ```
 
 ### Q2: chunk 文件是什么？
@@ -404,10 +406,10 @@ node output_test/runTask/run.test.js # 直接运行
 export var colorLog = (params, style) => { ... }
 
 // colorLog.test.js
-import { colorLog } from '../chunk-ABC123.js'
+import { colorLog } from '../../chunk-ABC123.js'
 
 // run.test.js
-import { colorLog } from '../chunk-ABC123.js'
+import { colorLog } from '../../chunk-ABC123.js'
 ```
 
 多个测试文件共享同一个 colorLog 实现，避免代码重复。
@@ -467,7 +469,7 @@ outDir: 'test',  // 改成 test/
    import { run } from './run.js'
    
    // ✅ 正确：使用相对于 output_test 的路径
-   import { run } from '../dist/common/runTask/run.js'
+   import { run } from '../output_test/cli/runTask/run.js'
    ```
 
 2. **依赖未编译**
@@ -491,7 +493,7 @@ outDir: 'test',  // 改成 test/
 1. **减少入口文件数量**
    ```javascript
    // 只编译特定测试
-   const testFiles = ['src/common/runTask/run.test.ts']
+   const testFiles = ['src/cli/runTask/run.test.ts']
    ```
 
 2. **禁用 sourcemap**（不推荐）

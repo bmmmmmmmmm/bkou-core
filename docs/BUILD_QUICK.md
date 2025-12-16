@@ -26,7 +26,7 @@ import { isEqual } from '@bkou/core/common/data/isEqual'
 import { isMobile } from '@bkou/core/browser/isMobile'
 
 // 导入 ESLint 配置
-import eslintConfig from '@bkou/core/common/eslint/__base__/eslint-config-base.cjs'
+import eslintConfig from '@bkou/core/dev/eslint/__base__/eslint-config-base.cjs'
 
 // 导入 CSS
 import '@bkou/core/browser/css/reset.css'

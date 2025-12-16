@@ -30,6 +30,9 @@ async function main () {
     minify: false, // 测试文件不压缩，便于调试
     sourcemap: true, // 生成 sourcemap
     dts: false, // 测试文件不需要类型声明
+    esbuildOptions (options) {
+      options.outbase = 'src' // 保持 src/ 下的目录结构
+    },
   })
 
   console.log('✅ 测试文件编译完成\n')
