@@ -1,20 +1,22 @@
-import { spawn /*, spawnSync */ } from 'child_process';
-import type { SpawnOptions, StdioOptions } from 'child_process'
-// import { colorLog } from 'cli/log/colorLog.ts'
+import { spawn } from 'child_process'
 
-type RunOptions = SpawnOptions & {
-  // inherit → 返回 null
-  // silent  → 收集但不显示
-  // default → 收集且显示
-  io?: 'default' | 'silent' | 'inherit';
-}
-
-type RunResult = {
-  code: number;
-  signal: NodeJS.Signals;
-  stdout: Buffer;
-  stderr: Buffer;
-}
+/**
+ * @typedef {import('child_process').SpawnOptions} SpawnOptions
+ * @typedef {'default' | 'silent' | 'inherit'} IOMode
+ * @typedef {SpawnOptions & { io?: IOMode }} RunOptions
+ * @typedef {{
+ *   code: number,
+ *   signal: NodeJS.Signals,
+ *   stdout: Buffer,
+ *   stderr: Buffer
+ * }} RunResult
+ * @typedef {{
+ *   childProcess: import('child_process').ChildProcess,
+ *   promise: Promise<RunResult>,
+ *   stdoutPromise: Promise<Buffer | null>,
+ *   stderrPromise: Promise<Buffer | null>
+ * }} RunReturn
+ */
 
 const isStreamReadable = (stream) => {
   return (
@@ -25,7 +27,12 @@ const isStreamReadable = (stream) => {
   )
 }
 
-const streamToBuffer = (stream, onData) => new Promise<Buffer>((resolve, reject) => {
+/**
+ * @param {NodeJS.ReadableStream} stream
+ * @param {((chunk: Buffer) => void) | null} [onData]
+ * @returns {Promise<Buffer>}
+ */
+const streamToBuffer = (stream, onData) => new Promise((resolve, reject) => {
   if (!isStreamReadable(stream)) {
     return reject(new Error('expect stream is readable'))
   }
@@ -39,12 +46,18 @@ const streamToBuffer = (stream, onData) => new Promise<Buffer>((resolve, reject)
   })
 })
 
-const run = (_command: string | string[], _options: RunOptions = {}) => {
+/**
+ * Run a command as a child process
+ * @param {string | string[]} _command - Command to run (array or string)
+ * @param {RunOptions} [_options={}] - Spawn options with additional io mode
+ * @returns {RunReturn} Object containing childProcess, promise, stdoutPromise, stderrPromise
+ */
+const run = (_command, _options = {}) => {
   const { io = 'default', shell = false, ...optionsRest } = _options
 
   const useInherit = io === 'inherit'
   const useSilent = io === 'silent'
-  const spawnStdio = useInherit ? 'inherit' : ['ignore', 'pipe', 'pipe'] as StdioOptions
+  const spawnStdio = useInherit ? 'inherit' : ['ignore', 'pipe', 'pipe']
 
   const childProcess = Array.isArray(_command)
     ? spawn(_command[0], _command.slice(1), { stdio: spawnStdio, ...optionsRest })
@@ -62,7 +75,7 @@ const run = (_command: string | string[], _options: RunOptions = {}) => {
     ? Promise.resolve(null)
     : streamToBuffer(childProcess.stderr, useSilent ? null : (chunk) => process.stderr.write(chunk))
 
-  const promise = new Promise<RunResult>((resolve, reject) => {
+  const promise = new Promise((resolve, reject) => {
     childProcess.on('close', async (code, signal) => {
       const [stdout, stderr] = await Promise.all([stdoutPromise, stderrPromise])
       if (code === 0) {

@@ -62,7 +62,7 @@ colorLog('\n📋 测试 9: 命令执行失败', ['cyan-bg'])
 try {
   await run(['ls', '/nonexistent_path_12345'], { io: 'silent' }).promise
   colorLog('  ✗ 应该抛出错误', ['red'])
-} catch (error: any) {
+} catch (error) {
   colorLog(`  ✓ 捕获错误: code=${error.code}`, ['green'])
   colorLog(`  ✓ 错误信息包含在 stderr 中: ${error.stderr.length > 0}`, ['green'])
 }
@@ -73,7 +73,7 @@ setTimeout(() => childProcess.kill('SIGTERM'), 100)
 try {
   await p10
   colorLog('  ✗ 应该抛出错误', ['red'])
-} catch (error: any) {
+} catch (error) {
   colorLog(`  ✓ 被信号终止: signal=${error.signal}`, ['green'])
   colorLog(`  ✓ 退出码非 0: code=${error.code}`, ['green'])
 }

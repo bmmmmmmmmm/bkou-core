@@ -1,7 +1,7 @@
 // ========== colorLog() 函数测试 ==========
 import { colorLog } from './colorLog.js'
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 colorLog('🧪 Testing colorLog() function\n', ['cyan', 'boild'])
 
@@ -48,13 +48,13 @@ colorLog([
 // ========== 自定义输出流测试 ==========
 
 colorLog('\n📋 测试 8: 输出到 stderr', ['cyan-bg'])
-const writeErr = (text: string) => process.stderr.write(text)
+const writeErr = (text) => process.stderr.write(text)
 colorLog('Error message', ['red', 'boild'], writeErr)
 colorLog('Warning message', ['yellow', 'boild'], writeErr)
 colorLog('') // 换行
 
 colorLog('\n📋 测试 9: 不换行输出（进度条效果）', ['cyan-bg'])
-const write = (text: string) => process.stdout.write(text)
+const write = (text) => process.stdout.write(text)
 colorLog('Loading', 'cyan', write)
 await sleep(200)
 colorLog('.', 'cyan', write)
@@ -105,13 +105,13 @@ colorLog([
 // ========== 颜色对比测试 ==========
 
 colorLog('\n📋 测试 16: 所有颜色对比', ['cyan-bg'])
-const colors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'] as const
+const colors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
 colors.forEach(color => {
   colorLog(`${color} color`, color)
 })
 
 colorLog('\n📋 测试 17: 所有背景色对比', ['cyan-bg'])
-const bgColors = ['black-bg', 'red-bg', 'green-bg', 'yellow-bg', 'blue-bg', 'magenta-bg', 'cyan-bg', 'white-bg'] as const
+const bgColors = ['black-bg', 'red-bg', 'green-bg', 'yellow-bg', 'blue-bg', 'magenta-bg', 'cyan-bg', 'white-bg']
 bgColors.forEach(bg => {
   colorLog(`${bg} background`, bg)
 })
