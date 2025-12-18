@@ -2,7 +2,10 @@ import { spawn } from 'child_process'
 
 /**
  * @typedef {import('child_process').SpawnOptions} SpawnOptions
- * @typedef {'default' | 'silent' | 'inherit'} IOMode
+ * // inherit → 直接继承父进程的 stdio，但无法收集信息(default)
+ * // collect → 收集且显示
+ * // silent  → 收集但不显示
+ * @typedef {'inherit' | 'collect' | 'silent'} IOMode
  * @typedef {SpawnOptions & { io?: IOMode }} RunOptions
  * @typedef {{
  *   code: number,
@@ -53,7 +56,7 @@ const streamToBuffer = (stream, onData) => new Promise((resolve, reject) => {
  * @returns {RunReturn} Object containing childProcess, promise, stdoutPromise, stderrPromise
  */
 const run = (_command, _options = {}) => {
-  const { io = 'default', shell = false, ...optionsRest } = _options
+  const { io = 'inherit', shell = false, ...optionsRest } = _options
 
   const useInherit = io === 'inherit'
   const useSilent = io === 'silent'

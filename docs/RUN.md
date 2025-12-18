@@ -39,13 +39,13 @@ function run(
 
 ```typescript
 type RunOptions = SpawnOptions & {
-  io?: 'default' | 'silent' | 'inherit'
+  io?: 'inherit' | 'silent' | 'collect'
 }
 ```
 
 | 参数 | 类型 | 默认值 | 说明 |
 |-----|------|--------|-----|
-| `io` | `'default' \| 'silent' \| 'inherit'` | `'default'` | 控制输入输出行为 |
+| `io` | `'inherit' \| 'silent' \| 'collect'` | `'inherit'` | 控制输入输出行为 |
 | `shell` | `boolean` | `false` | 是否使用 shell 执行 |
 | `cwd` | `string` | - | 工作目录 |
 | `env` | `object` | - | 环境变量 |
@@ -423,7 +423,7 @@ await promise
 import type { SpawnOptions, ChildProcess } from 'child_process'
 
 type RunOptions = SpawnOptions & {
-  io?: 'default' | 'silent' | 'inherit'
+  io?: 'inherit' | 'silent' | 'collect'
 }
 
 type RunResult = {

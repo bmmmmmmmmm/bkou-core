@@ -7,8 +7,8 @@ colorLog('🧪 Testing run() function\n', ['cyan', 'boild'])
 
 // ========== io 模式测试 ==========
 
-colorLog('\n📋 测试 1: io="default" - 边显示边收集', ['cyan-bg'])
-const { promise: p1 } = run(['echo', 'Hello World'])
+colorLog('\n📋 测试 1: io="collect" - 边显示边收集', ['cyan-bg'])
+const { promise: p1 } = run(['echo', 'Hello World'], { io: 'collect' })
 const r1 = await p1
 colorLog(`  ✓ 收集到: "${r1.stdout.toString().trim()}"`, ['green'])
 colorLog(`  ✓ stdout 是 Buffer: ${Buffer.isBuffer(r1.stdout)}`, ['green'])
