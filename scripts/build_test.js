@@ -1,26 +1,39 @@
 import { build } from 'tsup'
 import { glob } from 'glob'
+import { parseArgs } from '../src/cli/args/parseArgs.js'
+import { createLogKit } from '../src/cli/log/logKit.js'
 
 async function main () {
-  console.log('🧪 开始构建测试文件...\n')
+  const {
+    silent: isSilent,
+  } = parseArgs(process.argv, {
+    flags: {
+      S: 'silent',
+    },
+    defaults: {
+      silent: false,
+    },
+  })
+
+  const Logger = createLogKit({}, null, isSilent ? () => {} : undefined);
+
+  Logger._.loading('starting test build process...')
 
   // 查找所有测试文件
-  console.log('🔍 查找测试文件...')
+  Logger.loading('searching for test files...')
   const testFiles = await glob('src/**/*.test.{ts,js}', {
     ignore: ['**/__tests__/**', '**/__test__/**'],
   })
 
   if (testFiles.length === 0) {
-    console.log('⚠️  没有找到测试文件')
+    Logger.warn('No test files found')
     return
   }
 
-  console.log(`找到 ${testFiles.length} 个测试文件:`)
-  testFiles.forEach(file => console.log(`  - ${file}`))
-  console.log()
+  Logger.info([`Found ${testFiles.length} test files:`, ...testFiles.map(file => `  - ${file}`)])
 
   // 使用 tsup 编译测试文件
-  console.log('🔨 编译测试文件...')
+  Logger.loading('building test files...')
   await build({
     entry: testFiles,
     format: ['esm'],
@@ -33,17 +46,17 @@ async function main () {
     esbuildOptions (options) {
       options.outbase = 'src' // 保持 src/ 下的目录结构
     },
+    // silent: isSilent,
+    silent: true,
   })
 
-  console.log('✅ 测试文件编译完成\n')
-  console.log('💡 运行测试:')
-  testFiles.forEach(file => {
+  Logger._.success('test build process completed!')
+
+  Logger.info(['To run individual tests, use commands like:', ...testFiles.map(file => {
     const outputFile = file.replace('src/', 'output_test/').replace(/\.ts$/, '.js')
-    console.log(`   node ${outputFile}`)
-  })
-  console.log()
-  console.log('💡 或运行所有测试:')
-  console.log('   node output_test/**/*.test.js')
+    return `   node ${outputFile}`
+  })])
+  Logger.info(['Or run all tests with:', '   node output_test/**/*.test.js'])
 }
 
 main().catch(console.error)
