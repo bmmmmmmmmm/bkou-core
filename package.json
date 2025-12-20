@@ -14,7 +14,7 @@
     "// dev": "npm run rebuild",
     "// version:patch": "npm version patch --no-git-tag-version",
     "// release": "npm run rebuild && npm run version:patch && npm publish",
-    "version-bump": "npm run build -- --compact && node src/dev/version/version-bump.js",
+    "version-bump": "npm run build -- -S && node src/dev/version/version-bump.js",
     "tag-push": "node src/dev/version/tag-push.js --skip-publish"
   },
   "files": [

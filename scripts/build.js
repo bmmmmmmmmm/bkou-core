@@ -3,21 +3,31 @@ import { readFile, writeFile, mkdir, cp } from 'fs/promises'
 import { glob } from 'glob'
 import path from 'path'
 import { minify } from 'terser'
-// import { exec } from 'child_process'
-// import { promisify } from 'util'
-
-// const execAsync = promisify(exec)
+import { parseArgs } from '../src/cli/args/parseArgs.js'
+import { createLogKit } from '../src/cli/log/logKit.js'
 
 async function main () {
-  console.log('🚀 开始构建...\n')
+  const {
+    silent: isSilent,
+  } = parseArgs(process.argv, {
+    flags: {
+      S: 'silent',
+    },
+    defaults: {
+      silent: false,
+    },
+  })
+
+  const Logger = createLogKit({}, null, isSilent ? () => {} : undefined);
+
+  Logger._.loading('starting build process...')
 
   // 步骤 1: 清理 dist 目录
-  // console.log('📦 清理 dist 目录...')
+  // Logger.loading('cleaning dist directory...')
   // await execAsync('rm -rf dist')
-  // console.log('✅ 清理完成\n')
 
   // 步骤 2: 使用 tsup 打包 ts/js 文件
-  console.log('🔨 使用 tsup 编译 TypeScript/JavaScript...')
+  Logger.loading('building TypeScript/JavaScript files with tsup...')
   const tsFiles = await glob('src/**/*.ts', {
     ignore: ['**/*.test.ts', '**/*.spec.ts', '**/__tests__/**', '**/__test__/**'],
   })
@@ -46,11 +56,12 @@ async function main () {
         comments: false,
       },
     },
+    // silent: isSilent,
+    silent: true,
   })
-  console.log('✅ TypeScript 编译完成\n')
 
   // 步骤 3: 处理 .cjs 和 .mjs 文件（复制 + 压缩）
-  console.log('🔧 处理 .cjs 和 .mjs 文件...')
+  Logger.loading('processing .cjs and .mjs files...')
   const moduleFilesToBuild = await glob('src/**/*.{cjs,mjs}')
   for (const file of moduleFilesToBuild) {
     const destPath = file.replace('src/', 'dist/')
@@ -65,12 +76,11 @@ async function main () {
       },
     })
     await writeFile(destPath, result.code)
-    console.log(`  ✓ ${file} → ${destPath}`)
+    // console.log(`  ✓ ${file} → ${destPath}`)
   }
-  console.log('✅ .cjs/.mjs 处理完成\n')
 
   // 步骤 4: 复制其他文件
-  console.log('📦 复制其他文件...')
+  Logger.loading('copying other files...')
   const allFiles = await glob('src/**/*', { nodir: true })
   const tsFilesSet = new Set(tsFilesToBuild)
   const jsFilesSet = new Set(jsFilesToBuild)
@@ -91,12 +101,11 @@ async function main () {
     const destDir = path.dirname(destPath)
     await mkdir(destDir, { recursive: true })
     await cp(file, destPath)
-    console.log(`  ✓ ${file} → ${destPath}`)
+    // console.log(`  ✓ ${file} → ${destPath}`)
   }
-  if (filesToCopy.length === 0) console.log('  (没有需要复制的文件)')
-  console.log('✅ 文件复制完成\n')
+  // if (filesToCopy.length === 0) console.log('  (没有需要复制的文件)')
 
-  console.log('🎉 构建完成！')
+  Logger._.success('build process completed!')
 }
 
 main().catch(console.error)
