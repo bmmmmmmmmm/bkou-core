@@ -4,7 +4,8 @@
 import fs from 'fs';
 import path from 'path';
 import { runSilent, runResult } from '../../cli/runTask/runHelper.js';
-import { colorLog } from '../../cli/log/colorLog.js';
+// import { colorLog } from '../../cli/log/colorLog.js';
+import { Logger } from '../../cli/log/logKit.js';
 import { parseArgs } from '../../cli/args/parseArgs.js';
 
 // Validate semver format
@@ -27,7 +28,7 @@ async function main () {
   // Read package.json
   const pkgPath = path.join(process.cwd(), 'package.json');
   if (!fs.existsSync(pkgPath)) {
-    colorLog('❌ Error: package.json not found', 'red');
+    Logger.error('Error: package.json not found');
     process.exit(1);
   }
 
@@ -35,37 +36,35 @@ async function main () {
   try {
     pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   } catch (_error) {
-    colorLog('❌ Error: Failed to parse package.json', 'red');
+    Logger.error('Error: Failed to parse package.json');
     process.exit(1);
   }
 
   if (!pkg.version) {
-    colorLog('❌ Error: version field not found in package.json', 'red');
+    Logger.error('Error: version field not found in package.json');
     process.exit(1);
   }
 
   if (!isValidSemver(pkg.version)) {
-    colorLog(`❌ Error: Invalid semver format: ${pkg.version}`, 'red');
+    Logger.error(`Error: Invalid semver format: ${pkg.version}`);
     process.exit(1);
   }
 
   const tag = `v${pkg.version}`;
 
-  // colorLog(`Preparing to push version: ${tag}`, 'cyan');
-  colorLog(`Version to be tagged: ${tag}`, 'blue');
+  Logger.info(`Preparing to push version: ${tag}`);
 
   // Check last commit message
   const lastCommitMsg = await runResult('git log -1 --pretty=%s');
-  // colorLog(`Last commit: ${lastCommitMsg}`, 'blue');
 
   if (!lastCommitMsg.toLowerCase().startsWith('version')) {
-    colorLog('❌ Error: Last commit message must start with "version"', 'red');
-    colorLog(`   Current message: ${lastCommitMsg}`, 'yellow');
+    Logger.error('Error: Last commit message must start with "version"');
+    Logger.warn(`Current message: ${lastCommitMsg}`);
     process.exit(1);
   }
 
   // Check if tag already exists (locally or remotely)
-  colorLog(`🔄 Checking if tag ${tag} already exists...`);
+  Logger.loading(`Checking if tag ${tag} already exists...`);
   let tagExists = false;
   try {
     await runSilent(`git rev-parse ${tag}`);
@@ -83,56 +82,56 @@ async function main () {
   }
 
   if (tagExists) {
-    colorLog(`❌ Error: Tag ${tag} already exists`, 'red');
+    Logger.error(`Tag ${tag} already exists`);
     process.exit(1);
   }
 
-  colorLog('✅ Checks passed', 'green');
+  Logger.success('All checks passed');
 
   // Push commits
-  colorLog('🔄 Pushing commits...');
+  Logger.loading('Pushing commits...');
   try {
     await runSilent('git push');
-    colorLog('✅ Successfully pushed commits', 'green');
+    Logger.success('Successfully pushed commits');
   } catch (_error) {
-    colorLog('❌ Error: Failed to push commits', 'red');
+    Logger.error('Error: Failed to push commits');
     process.exit(1);
   }
 
   // Create and push tag
-  colorLog(`🔄 Creating tag...`);
+  Logger.loading(`Creating tag...`);
   try {
     await runSilent(`git tag "${tag}"`);
-    colorLog(`✅ Successfully created tag ${tag}`, 'green');
+    Logger.success(`Successfully created tag ${tag}`);
   } catch (_error) {
-    colorLog(`❌ Error: Failed to create tag ${tag}`, 'red');
+    Logger.error(`Error: Failed to create tag ${tag}`);
     process.exit(1);
   }
 
-  colorLog('🔄 Pushing tag...');
+  Logger.loading('Pushing tag...');
   try {
     await runSilent(`git push origin "${tag}"`);
-    colorLog(`✅ Successfully pushed ${tag}`, 'green');
+    Logger.success(`Successfully pushed tag ${tag}`);
   } catch (_error) {
-    colorLog('❌ Error: Failed to push tag', 'red');
-    colorLog(`⚠️ Warning: Tag ${tag} was created locally but not pushed`, 'yellow');
-    colorLog(`You may need to manually delete the tag: git tag -d ${tag}`, 'yellow');
+    Logger.error('Error: Failed to push tag');
+    Logger.warn(`Warning: Tag ${tag} was created locally but not pushed`);
+    Logger.warn(`You may need to manually delete the tag: git tag -d ${tag}`);
     process.exit(1);
   }
 
   // Publish to npm (unless --skip-publish flag is set)
   if (!skipPublish) {
-    colorLog('🔄 Publishing to npm...');
+    Logger.loading('Publishing to npm...');
     try {
       await runSilent('npm publish');
-      colorLog('✅ Successfully published to npm', 'green');
+      Logger.success('Successfully published to npm');
     } catch (_error) {
-      colorLog('❌ Error: Failed to publish to npm', 'red');
-      colorLog('⚠️ Tag has been pushed, you may need to manually publish with: npm publish', 'yellow');
+      Logger.error('Error: Failed to publish to npm');
+      Logger.warn('Tag has been pushed, you may need to manually publish with: npm publish');
       process.exit(1);
     }
   } else {
-    colorLog('✅ Tag pushed successfully (npm publish skipped)', 'green');
+    Logger.success('Tag pushed successfully (npm publish skipped)');
   }
 }
 

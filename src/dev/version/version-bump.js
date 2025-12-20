@@ -5,7 +5,8 @@
 import fs from 'fs';
 import path from 'path';
 import { runSilent, runResult } from '../../cli/runTask/runHelper.js';
-import { colorLog } from '../../cli/log/colorLog.js';
+// import { colorLog } from '../../cli/log/colorLog.js';
+import { Logger } from '../../cli/log/logKit.js';
 
 // Validate semver format
 const isValidSemver = (version) => {
@@ -16,7 +17,7 @@ const isValidSemver = (version) => {
 async function main () {
   // Get current git branch
   const currentBranch = await runResult('git rev-parse --abbrev-ref HEAD');
-  colorLog(`Current branch: ${currentBranch}`, 'blue');
+  Logger.info(`Current branch: ${currentBranch}`);
 
   // Check if it's a main branch
   const mainBranches = process.env.MAIN_BRANCHES?.split(',') || ['master', 'main'];
@@ -26,13 +27,12 @@ async function main () {
   try {
     const status = await runResult('git status --porcelain');
     if (status.length > 0) {
-      colorLog('❌ Error: Working directory not clean. Please commit or stash changes first.', 'red');
-      // colorLog(['Changes:', ...status], 'yellow');
-      colorLog(`Changes:\n ${status}`, 'yellow');
+      Logger.error('Error: Working directory not clean. Please commit or stash changes first.');
+      Logger.warn(`Changes:\n ${status}`);
       process.exit(1);
     }
   } catch (_error) {
-    colorLog('❌ Error: Failed to check git status', 'red');
+    Logger.error('Error: Failed to check git status');
     process.exit(1);
   }
 
@@ -42,7 +42,7 @@ async function main () {
   //   const localCommit = await runResult('git rev-parse HEAD');
   //   const remoteCommit = await runResult(`git rev-parse origin/${currentBranch}`);
   //   if (localCommit !== remoteCommit) {
-  //     colorLog('⚠ Warning: Local branch is not in sync with remote', 'yellow');
+  //     Logger.warn('Warning: Local branch is not in sync with remote');
   //   }
   // } catch (_error) {
   //   // Remote branch might not exist, ignore
@@ -51,7 +51,7 @@ async function main () {
   // Read package.json
   const pkgPath = path.join(process.cwd(), 'package.json');
   if (!fs.existsSync(pkgPath)) {
-    colorLog('❌ Error: package.json not found', 'red');
+    Logger.error('Error: package.json not found');
     process.exit(1);
   }
 
@@ -59,21 +59,21 @@ async function main () {
   try {
     pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   } catch (_error) {
-    colorLog('❌ Error: Failed to parse package.json', 'red');
+    Logger.error('Error: Failed to parse package.json');
     process.exit(1);
   }
 
   if (!pkg.version) {
-    colorLog('❌ Error: version field not found in package.json', 'red');
+    Logger.error('Error: version field not found in package.json');
     process.exit(1);
   }
 
   if (!isValidSemver(pkg.version)) {
-    colorLog(`❌ Error: Invalid semver format: ${pkg.version}`, 'red');
+    Logger.error(`Error: Invalid semver format: ${pkg.version}`);
     process.exit(1);
   }
 
-  colorLog(`Current version: ${pkg.version}`, 'blue');
+  Logger.info(`Current version: ${pkg.version}`);
 
   // Bump version based on branch
   try {
@@ -94,7 +94,7 @@ async function main () {
       }
     }
   } catch (_error) {
-    colorLog('❌ Error: Failed to bump version', 'red');
+    Logger.error('Error: Failed to bump version');
     process.exit(1);
   }
 
@@ -103,27 +103,27 @@ async function main () {
   try {
     newPkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   } catch (_error) {
-    colorLog('❌ Error: Failed to read updated package.json', 'red');
+    Logger.error('Error: Failed to read updated package.json');
     process.exit(1);
   }
 
   if (!isValidSemver(newPkg.version)) {
-    colorLog(`❌ Error: New version has invalid semver format: ${newPkg.version}`, 'red');
+    Logger.error(`Error: New version has invalid semver format: ${newPkg.version}`);
     process.exit(1);
   }
 
-  colorLog(`==> New version: ${newPkg.version}`, 'blue');
+  Logger.info(`New version: ${newPkg.version}`);
 
   // Git commit
   try {
     await runSilent('git add package.json package-lock.json');
     await runSilent([`git`, `commit`, `-m`, `version: ${newPkg.name}@${newPkg.version}`]);
-    colorLog('✅ Version bumped and committed', 'cyan');
   } catch (_error) {
-    colorLog('❌ Error: Failed to commit changes', 'red');
-    colorLog('You may need to manually revert package.json changes', 'yellow');
+    Logger.error(['Error: Failed to commit changes', 'You may need to manually revert package.json changes']);
     process.exit(1);
   }
+
+  Logger.success('Version bumped and committed');
 }
 
 main().catch((error) => {
