@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { writeFileSync } from 'node:fs'
 
-import { parseArgs } from 'cli/args/parseArgs.js'
-import { run } from 'cli/runTask/run'
-import { colorLog } from 'cli/log/colorLog'
+import { parseArgs } from '../../cli/args/parseArgs.js'
+import { run } from '../../cli/runTask/run.js'
+import { colorLog } from '../../cli/log/colorLog.js'
 
 const config = parseArgs(process.argv, {
   flags: {

@@ -1,4 +1,4 @@
-import { colorLog } from 'cli/log/colorLog.js'
+import { colorLog } from '../log/colorLog.js'
 
 // ========== runHelper 辅助函数测试 ==========
 import { runSilent, runResult, runStdResult } from './runHelper.js'
