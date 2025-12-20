@@ -1,5 +1,6 @@
 import { build } from 'tsup'
 import { glob } from 'glob'
+import { runSilent } from '../src/cli/runTask/runHelper.js'
 import { parseArgs } from '../src/cli/args/parseArgs.js'
 import { createLogKit } from '../src/cli/log/logKit.js'
 
@@ -18,6 +19,10 @@ async function main () {
   const Logger = createLogKit({}, null, isSilent ? () => {} : undefined);
 
   Logger._.loading('starting test build process...')
+
+  // 清理 output_test 目录
+  Logger.loading('cleaning output_test directory...')
+  await runSilent('rm -rf output_test').promise
 
   // 查找所有测试文件
   Logger.loading('searching for test files...')

@@ -3,6 +3,7 @@ import { readFile, writeFile, mkdir, cp } from 'fs/promises'
 import { glob } from 'glob'
 import path from 'path'
 import { minify } from 'terser'
+import { runSilent } from '../src/cli/runTask/runHelper.js'
 import { parseArgs } from '../src/cli/args/parseArgs.js'
 import { createLogKit } from '../src/cli/log/logKit.js'
 
@@ -23,8 +24,8 @@ async function main () {
   Logger._.loading('starting build process...')
 
   // 步骤 1: 清理 dist 目录
-  // Logger.loading('cleaning dist directory...')
-  // await execAsync('rm -rf dist')
+  Logger.loading('cleaning dist directory...')
+  await runSilent('rm -rf dist').promise
 
   // 步骤 2: 使用 tsup 打包 ts/js 文件
   Logger.loading('building TypeScript/JavaScript files with tsup...')
