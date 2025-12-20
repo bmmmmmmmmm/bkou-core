@@ -9,23 +9,23 @@ const parseMessage = (message, sign = '=>') => {
   }
   return `${sign} ${message}`;
 }
-const _createLogKit = (_logOptions, _report, _log = colorLog) => {
-  const log = (message) => _log(parseMessage(message));
+const _createLogKit = (_logOptions, _report, _log = console.log) => {
+  const log = (message) => colorLog(parseMessage(message), undefined, _log);
   /** blue */
-  const info = (message) => _log(parseMessage(message), ['blue']);
+  const info = (message) => colorLog(parseMessage(message), ['blue'], _log);
   /** yellow */
-  const warn = (message) => _log(parseMessage(message, '⚠️'), ['yellow']);
+  const warn = (message) => colorLog(parseMessage(message, '⚠️'), ['yellow'], _log);
   /** red */
-  const error = (message) => _log(parseMessage(message, '❌'), ['red']);
+  const error = (message) => colorLog(parseMessage(message, '❌'), ['red'], _log);
   /** green */
-  const success = (message) => _log(parseMessage(message, '✅'), ['green']);
+  const success = (message) => colorLog(parseMessage(message, '✅'), ['green'], _log);
   /** cyan */
-  const loading = (message) => _log(parseMessage(message, '⏳'), ['cyan']);
+  const loading = (message) => colorLog(parseMessage(message, '⏳'), ['cyan'], _log);
   const track = (message, silent = true) => {
-    !silent && _log(`${timestamp()} | ${message}`);
+    !silent && colorLog(`${timestamp()} | ${message}`);
     _report && _report(message);
   }
-  const color = _log;
+  const color = colorLog;
 
   return {
     log, info, warn, error, success, loading,
@@ -34,12 +34,12 @@ const _createLogKit = (_logOptions, _report, _log = colorLog) => {
   };
 }
 
-const createLogKit = (logOptions = {}, report = null, log = colorLog) => ({
+const createLogKit = (logOptions = {}, report = null, log = console.log) => ({
   ..._createLogKit(logOptions, report, log),
-  _: _createLogKit(logOptions, report, colorLog),
+  _: _createLogKit(logOptions, report, console.log),
 })
 
-const Logger = createLogKit({}, null, colorLog);
+const Logger = createLogKit({}, null, console.log);
 
 export {
   createLogKit,

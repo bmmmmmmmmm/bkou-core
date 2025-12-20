@@ -37,10 +37,10 @@ const logStyleMap = new Map([
 // const postLine = '======= [ BK ] =======';
 // const preStr = '==[ BK ]== ';
 // const postStr = '';
-const preLine = ''
-const postLine = ''
-const preStr = ''
-const postStr = ''
+// const preLine = ''
+// const postLine = ''
+// const preStr = ''
+// const postStr = ''
 
 /**
  * Output colored log to console
@@ -50,9 +50,10 @@ const postStr = ''
  */
 const colorLog = (params, style, log = console.log) => {
   const message = Array.isArray(params) ? params.join('\n') : params
-  const pre = Array.isArray(params) ? `${preLine}\n` : preStr
-  const post = Array.isArray(params) ? `\n${postLine}` : postStr
-  const output = `${pre}${message}${post}`
+  // const pre = Array.isArray(params) ? `${preLine}\n` : preStr
+  // const post = Array.isArray(params) ? `\n${postLine}` : postStr
+  // const output = `${pre}${message}${post}`
+  const output = message
   if (!style) return log(output)
   const styleLog = Array.isArray(style) ? style.map(s => logStyleMap.get(s)).join(';') : logStyleMap.get(style)
   log(`\x1B[${styleLog}m${output}\x1B[0m`)

@@ -6,26 +6,31 @@ import { createLogKit } from '../src/cli/log/logKit.js'
 
 async function main () {
   const {
-    silent: isSilent,
+    silent,
+    debug: DEBUG,
   } = parseArgs(process.argv, {
     flags: {
       S: 'silent',
+      D: 'debug',
     },
     defaults: {
       silent: false,
+      debug: false,
     },
   })
 
-  const Logger = createLogKit({}, null, isSilent ? () => {} : undefined);
+  // const write = (text) => process.stdout.write(`${text}\n`)
+  // const Logger = createLogKit({}, null, silent ? () => {} : write);
+  const Logger = createLogKit({}, null, silent ? () => {} : console.log);
 
-  Logger._.loading('starting test build process...')
+  Logger._.loading('Starting test build process...')
 
-  // 清理 output_test 目录
-  Logger.loading('cleaning output_test directory...')
+  // 步骤 1: 清理 output_test 目录
+  Logger.loading('Cleaning output_test directory...')
   await runSilent('rm -rf output_test').promise
 
-  // 查找所有测试文件
-  Logger.loading('searching for test files...')
+  // 步骤 2: 查找所有测试文件
+  Logger.loading('Searching for test files...')
   const testFiles = await glob('src/**/*.test.{ts,js}', {
     ignore: ['**/__tests__/**', '**/__test__/**'],
   })
@@ -35,10 +40,10 @@ async function main () {
     return
   }
 
-  Logger.info([`Found ${testFiles.length} test files:`, ...testFiles.map(file => `  - ${file}`)])
+  DEBUG && Logger.info([`Found ${testFiles.length} test files:`, ...testFiles.map(file => `  - ${file}`)])
 
-  // 使用 tsup 编译测试文件
-  Logger.loading('building test files...')
+  // 步骤 3: 使用 tsup 编译测试文件
+  Logger.loading('Building test files...')
   await build({
     entry: testFiles,
     format: ['esm'],
@@ -51,17 +56,18 @@ async function main () {
     esbuildOptions (options) {
       options.outbase = 'src' // 保持 src/ 下的目录结构
     },
-    // silent: isSilent,
+    // silent: silent,
+    // silent: !DEBUG,
     silent: true,
   })
 
-  Logger._.success('test build process completed!')
+  Logger._.success('Test build process completed!')
 
-  Logger.info(['To run individual tests, use commands like:', ...testFiles.map(file => {
-    const outputFile = file.replace('src/', 'output_test/').replace(/\.ts$/, '.js')
-    return `   node ${outputFile}`
-  })])
-  Logger.info(['Or run all tests with:', '   node output_test/**/*.test.js'])
+  // Logger.info(['To run individual tests, use commands like:', ...testFiles.map(file => {
+  //   const outputFile = file.replace('src/', 'output_test/').replace(/\.ts$/, '.js')
+  //   return `   node ${outputFile}`
+  // })])
+  // Logger.info(['Or run all tests with:', '   node output_test/**/*.test.js'])
 }
 
 main().catch(console.error)

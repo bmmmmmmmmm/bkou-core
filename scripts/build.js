@@ -9,26 +9,31 @@ import { createLogKit } from '../src/cli/log/logKit.js'
 
 async function main () {
   const {
-    silent: isSilent,
+    silent,
+    debug: DEBUG,
   } = parseArgs(process.argv, {
     flags: {
       S: 'silent',
+      D: 'debug',
     },
     defaults: {
       silent: false,
+      debug: false,
     },
   })
 
-  const Logger = createLogKit({}, null, isSilent ? () => {} : undefined);
+  // const write = (text) => process.stdout.write(`${text}\n`)
+  // const Logger = createLogKit({}, null, silent ? () => {} : write);
+  const Logger = createLogKit({}, null, silent ? () => {} : console.log);
 
-  Logger._.loading('starting build process...')
+  Logger._.loading('Starting build process...')
 
   // 步骤 1: 清理 dist 目录
-  Logger.loading('cleaning dist directory...')
+  Logger.loading('Cleaning dist directory...')
   await runSilent('rm -rf dist').promise
 
   // 步骤 2: 使用 tsup 打包 ts/js 文件
-  Logger.loading('building TypeScript/JavaScript files with tsup...')
+  Logger.loading('Building TypeScript/JavaScript files with tsup...')
   const tsFiles = await glob('src/**/*.ts', {
     ignore: ['**/*.test.ts', '**/*.spec.ts', '**/__tests__/**', '**/__test__/**'],
   })
@@ -57,12 +62,14 @@ async function main () {
         comments: false,
       },
     },
-    // silent: isSilent,
+    // silent: silent,
+    // silent: !DEBUG,
     silent: true,
   })
+  DEBUG && Logger.info([`Built ${tsFilesToBuild.length + jsFilesToBuild.length} TS/JS files:`, ...[...tsFilesToBuild, ...jsFilesToBuild].map(file => `  - ${file}`)])
 
   // 步骤 3: 处理 .cjs 和 .mjs 文件（复制 + 压缩）
-  Logger.loading('processing .cjs and .mjs files...')
+  Logger.loading('Processing .cjs and .mjs files...')
   const moduleFilesToBuild = await glob('src/**/*.{cjs,mjs}')
   for (const file of moduleFilesToBuild) {
     const destPath = file.replace('src/', 'dist/')
@@ -77,11 +84,12 @@ async function main () {
       },
     })
     await writeFile(destPath, result.code)
-    // console.log(`  ✓ ${file} → ${destPath}`)
+    // DEBUG && Logger.info(`  ✓ ${file} → ${destPath}`)
   }
+  // DEBUG && Logger.info([`Processed ${moduleFilesToBuild.length} .cjs/.mjs files:`, ...moduleFilesToBuild.map(file => `  - ${file}`)])
 
   // 步骤 4: 复制其他文件
-  Logger.loading('copying other files...')
+  Logger.loading('Copying other files...')
   const allFiles = await glob('src/**/*', { nodir: true })
   const tsFilesSet = new Set(tsFilesToBuild)
   const jsFilesSet = new Set(jsFilesToBuild)
@@ -102,11 +110,11 @@ async function main () {
     const destDir = path.dirname(destPath)
     await mkdir(destDir, { recursive: true })
     await cp(file, destPath)
-    // console.log(`  ✓ ${file} → ${destPath}`)
+    // DEBUG && Logger.info(`  ✓ ${file} → ${destPath}`)
   }
-  // if (filesToCopy.length === 0) console.log('  (没有需要复制的文件)')
+  DEBUG && Logger.info([`Copied ${filesToCopy.length} other files:`, ...filesToCopy.map(file => `  - ${file}`)])
 
-  Logger._.success('build process completed!')
+  Logger._.success('Build process completed!')
 }
 
 main().catch(console.error)
