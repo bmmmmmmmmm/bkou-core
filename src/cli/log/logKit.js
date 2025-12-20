@@ -9,23 +9,23 @@ const parseMessage = (message, sign = '=>') => {
   }
   return `${sign} ${message}`;
 }
-const createLogKit = (_logOptions, _report) => {
-  const log = (message) => colorLog(parseMessage(message));
+const _createLogKit = (_logOptions, _report, _log = colorLog) => {
+  const log = (message) => _log(parseMessage(message));
   /** blue */
-  const info = (message) => colorLog(parseMessage(message), ['blue']);
+  const info = (message) => _log(parseMessage(message), ['blue']);
   /** yellow */
-  const warn = (message) => colorLog(parseMessage(message, '⚠️'), ['yellow']);
+  const warn = (message) => _log(parseMessage(message, '⚠️'), ['yellow']);
   /** red */
-  const error = (message) => colorLog(parseMessage(message, '❌'), ['red']);
+  const error = (message) => _log(parseMessage(message, '❌'), ['red']);
   /** green */
-  const success = (message) => colorLog(parseMessage(message, '✅'), ['green']);
+  const success = (message) => _log(parseMessage(message, '✅'), ['green']);
   /** cyan */
-  const loading = (message) => colorLog(parseMessage(message, '⏳'), ['cyan']);
+  const loading = (message) => _log(parseMessage(message, '⏳'), ['cyan']);
   const track = (message, silent = true) => {
-    !silent && colorLog(`${timestamp()} | ${message}`);
+    !silent && _log(`${timestamp()} | ${message}`);
     _report && _report(message);
   }
-  const color = colorLog;
+  const color = _log;
 
   return {
     log, info, warn, error, success, loading,
@@ -34,7 +34,12 @@ const createLogKit = (_logOptions, _report) => {
   };
 }
 
-const Logger = createLogKit({}, null);
+const createLogKit = (logOptions = {}, report = null, log = colorLog) => ({
+  ..._createLogKit(logOptions, report, log),
+  _: _createLogKit(logOptions, report, colorLog),
+})
+
+const Logger = createLogKit({}, null, colorLog);
 
 export {
   createLogKit,
