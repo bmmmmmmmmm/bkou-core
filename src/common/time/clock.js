@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // @inspired by `https://github.com/dr-js/dr-js/blob/master/source/common/time.js`
 
-const createClock = (): () => number => {
+/**
+ * Create a high-precision clock function
+ * @returns {() => number} Clock function that returns time in milliseconds
+ */
+const createClock = () => {
   try {
     const { performance } = globalThis;
     if (performance && typeof performance.now === 'function') {
@@ -10,7 +14,7 @@ const createClock = (): () => number => {
         return () => performance.now();
       }
     }
-  } catch (error) {}
+  } catch (_error) {}
 
   try {
     const { process } = globalThis;
@@ -20,7 +24,7 @@ const createClock = (): () => number => {
         return () => Number(process.hrtime.bigint()) * 0.000001;
       }
     }
-  } catch (error) {}
+  } catch (_error) {}
 
   try {
     const { process } = globalThis;
@@ -33,25 +37,29 @@ const createClock = (): () => number => {
         };
       }
     }
-  } catch (error) {}
+  } catch (_error) {}
 
   return Date.now;
 };
 
-const _createClock = (): () => number => {
+/**
+ * Alternative clock implementation (simplified version)
+ * @returns {() => number} Clock function that returns time in milliseconds
+ */
+const _createClock = () => {
   try {
     const { performance } = globalThis
     const clock = () => performance.now()
     const time = clock()
     if (time <= clock()) return clock
-  } catch (error) {}
+  } catch (_error) {}
 
   try {
     const { process } = globalThis
     const clock = () => Number(process.hrtime.bigint()) / 1000000
     const time = clock()
     if (time <= clock()) return clock
-  } catch (error) {}
+  } catch (_error) {}
 
   try {
     const { process } = globalThis
@@ -61,12 +69,16 @@ const _createClock = (): () => number => {
     }
     const time = clock()
     if (time <= clock()) return clock
-  } catch (error) {}
+  } catch (_error) {}
 
   return Date.now
 };
 
-const createTimestamp = (): () => number => {
+/**
+ * Create a timestamp function
+ * @returns {() => number} Timestamp function that returns Unix timestamp in milliseconds
+ */
+const createTimestamp = () => {
   // try {
   //   const { performance } = globalThis;
   //   if (performance && typeof performance.now === 'function' && performance.timeOrigin) {
@@ -96,14 +108,37 @@ const createTimestamp = (): () => number => {
   return Date.now;
 };
 
+/**
+ * High-precision clock function (milliseconds since arbitrary point)
+ * @type {() => number}
+ */
 const clock = createClock();
+
+/**
+ * Current timestamp function (Unix timestamp in milliseconds)
+ * @type {() => number}
+ */
 const now = createTimestamp();
+
+/**
+ * Current timestamp in seconds (floored)
+ * @returns {number} Unix timestamp in seconds
+ */
 const timestamp = () => Math.floor(now());
-const measure = <T>(fn: () => T): { result: T; duration: number } => {
+
+/**
+ * Measure execution time of a function (supports both sync and async)
+ * @template T
+ * @param {() => T | Promise<T>} fn - Function to measure (can be sync or async)
+ * @returns {Promise<{ result?: T, error?: Error, duration: number, success: boolean }>} Promise containing the function result/error and duration in milliseconds
+ */
+const measure = (fn) => {
   const start = clock();
-  const result = fn();
-  const duration = clock() - start;
-  return { result, duration };
+  return Promise.resolve(fn())
+    .then(
+      (result) => ({ result, duration: clock() - start, success: true }),
+      (error) => ({ error, duration: clock() - start, success: false }),
+    );
 };
 
 export {
