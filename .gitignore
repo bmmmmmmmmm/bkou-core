@@ -20,3 +20,6 @@ output_*/
 !.vscode/extensions.json
 .DS_Store
 .turbo
+
+# Ignore folder of file with `-gitignore`
+**/*-gitignore*
