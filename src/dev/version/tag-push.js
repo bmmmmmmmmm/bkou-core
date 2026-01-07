@@ -101,7 +101,7 @@ async function main () {
   // Create and push tag
   Logger.loading(`Creating tag...`);
   try {
-    await runSilent(`git tag "${tag}"`);
+    await runSilent(`git tag ${tag}`);
     Logger.success(`Successfully created tag ${tag}`);
   } catch (_error) {
     Logger.error(`Error: Failed to create tag ${tag}`);
@@ -110,7 +110,7 @@ async function main () {
 
   Logger.loading('Pushing tag...');
   try {
-    await runSilent(`git push origin "${tag}"`);
+    await runSilent(`git push origin ${tag}`);
     Logger.success(`Successfully pushed tag ${tag}`);
   } catch (_error) {
     Logger.error('Error: Failed to push tag');
