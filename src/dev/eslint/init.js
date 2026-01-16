@@ -43,6 +43,10 @@ if (useFlat) {
   colorLog('ESLint v8 installed.', ['green'])
 }
 
+colorLog('Installing base ESLint plugins...', ['cyan'])
+await run('npm install eslint-plugin-import eslint-plugin-n eslint-plugin-promise -D', { io: 'silent' }).promise
+colorLog('Base ESLint plugins installed.', ['green'])
+
 if (useTypescript) {
   colorLog('Installing TypeScript ESLint plugins...', ['cyan'])
   await run('npm install @typescript-eslint/parser @typescript-eslint/eslint-plugin -D', { io: 'silent' }).promise
@@ -56,13 +60,13 @@ if (useReact) {
 }
 
 const extendsArray = [
-  `@bkou/core/dev/eslint/__base__/eslint-config-base${configExt}`,
+  `./node_modules/@bkou/core/dist/dev/eslint/__base__/eslint-config-base${configExt}`,
 ]
 if (useTypescript) {
-  extendsArray.push(`@bkou/core/dev/eslint/__typescript__/eslint-config-ts${configExt}`)
+  extendsArray.push(`./node_modules/@bkou/core/dist/dev/eslint/__typescript__/eslint-config-ts${configExt}`)
 }
 if (useReact) {
-  extendsArray.push(`@bkou/core/dev/eslint/__react__/eslint-config-react${configExt}`)
+  extendsArray.push(`./node_modules/@bkou/core/dist/dev/eslint/__react__/eslint-config-react${configExt}`)
 }
 
 let configContent
@@ -85,5 +89,5 @@ ${extendsArray.map(ext => `    '${ext}',`).join('\n')}
 `.trim()
 }
 
-writeFileSync(configFileName, configContent)
+writeFileSync(configFileName, configContent + '\n')
 colorLog(`✅ ESLint configuration file '${configFileName}' generated successfully!`, ['green'])
