@@ -49,7 +49,6 @@
     "eslint-plugin-n": "^17.21.3",
     "eslint-plugin-promise": "^7.2.1",
     "glob": "^10.5.0",
-    "terser": "^5.44.1",
     "tsup": "^8.5.1"
   }
 }

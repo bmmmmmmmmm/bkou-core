@@ -1,8 +1,8 @@
 import { build } from 'tsup'
-import { readFile, writeFile, mkdir, cp } from 'fs/promises'
+import { /* readFile, writeFile, */ mkdir, cp } from 'fs/promises'
 import { glob } from 'glob'
 import path from 'path'
-import { minify } from 'terser'
+// import { minify } from 'terser'
 import { runSilent } from '../src/cli/runTask/runHelper.js'
 import { parseArgs } from '../src/cli/args/parseArgs.js'
 import { createLogKit } from '../src/cli/log/logKit.js'
@@ -52,15 +52,21 @@ async function main () {
       entry: tsFilesToBuild,
     },
     outDir: 'dist',
+    bundle: false,
     splitting: false,
     clean: false,
-    minify: 'terser',
-    terserOptions: {
-      compress: true,
-      mangle: false,
-      format: {
-        comments: false,
-      },
+    // minify: 'terser',
+    minify: false,
+    // terserOptions: {
+    //   compress: true,
+    //   mangle: false,
+    //   format: {
+    //     comments: false,
+    //   },
+    // },
+    keepNames: false,
+    esbuildOptions (options) {
+      options.outbase = 'src'
     },
     // silent: silent,
     // silent: !DEBUG,
@@ -68,22 +74,23 @@ async function main () {
   })
   DEBUG && Logger.info([`Built ${tsFilesToBuild.length + jsFilesToBuild.length} TS/JS files:`, ...[...tsFilesToBuild, ...jsFilesToBuild].map(file => `  - ${file}`)])
 
-  // 步骤 3: 处理 .cjs 和 .mjs 文件（复制 + 压缩）
+  // 步骤 3: 处理 .cjs 和 .mjs 文件（复制，不压缩）
   Logger.loading('Processing .cjs and .mjs files...')
   const moduleFilesToBuild = await glob('src/**/*.{cjs,mjs}')
   for (const file of moduleFilesToBuild) {
     const destPath = file.replace('src/', 'dist/')
     const destDir = path.dirname(destPath)
     await mkdir(destDir, { recursive: true })
-    const code = await readFile(file, 'utf-8')
-    const result = await minify(code, {
-      compress: true,
-      mangle: false,
-      format: {
-        comments: false,
-      },
-    })
-    await writeFile(destPath, result.code)
+    // const code = await readFile(file, 'utf-8')
+    // const result = await minify(code, {
+    //   compress: true,
+    //   mangle: false,
+    //   format: {
+    //     comments: false,
+    //   },
+    // })
+    // await writeFile(destPath, result.code)
+    await cp(file, destPath)
     // DEBUG && Logger.info(`  ✓ ${file} → ${destPath}`)
   }
   // DEBUG && Logger.info([`Processed ${moduleFilesToBuild.length} .cjs/.mjs files:`, ...moduleFilesToBuild.map(file => `  - ${file}`)])
