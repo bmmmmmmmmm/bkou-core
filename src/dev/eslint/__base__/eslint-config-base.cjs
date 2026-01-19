@@ -4,6 +4,8 @@ const baseConfig = {
   ignorePatterns: [ // EDIT: https://github.com/eslint/eslint/issues/10341#issuecomment-468548031
     '!.*', 'node_modules',
     'dist/', 'build/', 'output_*/',
+    // Ignore folder of file with `-eslintignore`
+    '**/*-eslintignore*',
   ],
 
   parserOptions: {
