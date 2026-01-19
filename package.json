@@ -20,26 +20,6 @@
   "exports": {
     "./*": "./dist/*"
   },
-  "peerDependencies": {
-    "eslint": ">=8.0.0",
-    "eslint-plugin-import": ">=2.0.0",
-    "eslint-plugin-n": ">=17.0.0",
-    "eslint-plugin-promise": ">=7.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@typescript-eslint/parser": {
-      "optional": true
-    },
-    "@typescript-eslint/eslint-plugin": {
-      "optional": true
-    },
-    "eslint-plugin-react": {
-      "optional": true
-    },
-    "eslint-plugin-react-hooks": {
-      "optional": true
-    }
-  },
   "devDependencies": {
     "@types/node": "^20.12.11",
     "@typescript-eslint/eslint-plugin": "^8.40.0",
