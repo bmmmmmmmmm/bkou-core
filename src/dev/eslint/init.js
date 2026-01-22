@@ -2,8 +2,8 @@
 import { writeFileSync } from 'node:fs'
 
 import { parseArgs } from '../../cli/args/parseArgs.js'
-import { run } from '../../cli/runTask/run.js'
-import { colorLog } from '../../cli/log/colorLog.js'
+import { runSilent } from '../../cli/runTask/runHelper.js'
+import { Logger } from '../../cli/log/logKit.js'
 
 const config = parseArgs(process.argv, {
   flags: {
@@ -21,11 +21,13 @@ const config = parseArgs(process.argv, {
   },
 })
 
-colorLog('Configuration:', ['yellow'])
-colorLog(`  ESLint: ${config.version === '8' ? 'v8 (Legacy)' : 'v9+ (Flat Config)'}`, ['yellow'])
-colorLog(`  TypeScript: ${config.typescript ? '✓' : '✗'}`, ['yellow'])
-colorLog(`  React: ${config.react ? '✓' : '✗'}`, ['yellow'])
-colorLog('', [])
+Logger.info([
+  'Configuration:',
+  `  ESLint: ${config.version === '8' ? 'v8 (Legacy)' : 'v9+ (Flat Config)'}`,
+  `  TypeScript: ${config.typescript ? '✓' : '✗'}`,
+  `  React: ${config.react ? '✓' : '✗'}`,
+  '',
+])
 
 const useFlat = Number(config.version) >= 9
 const configExt = useFlat ? '.flat.mjs' : '.cjs'
@@ -34,29 +36,29 @@ const useTypescript = config.typescript
 const useReact = config.react
 
 if (useFlat) {
-  colorLog('Installing ESLint v9...', ['cyan'])
-  await run('npm install eslint@9 -D', { io: 'silent' }).promise
-  colorLog('ESLint v9 installed.', ['green'])
+  Logger.loading('Installing ESLint v9...')
+  await runSilent('npm install eslint@9 -D')
+  // Logger.success('ESLint v9 installed.')
 } else {
-  colorLog('Installing ESLint v8...', ['cyan'])
-  await run('npm install eslint@8 -D', { io: 'silent' }).promise
-  colorLog('ESLint v8 installed.', ['green'])
+  Logger.loading('Installing ESLint v8...')
+  await runSilent('npm install eslint@8 -D')
+  // Logger.success('ESLint v8 installed.')
 }
 
-colorLog('Installing base ESLint plugins...', ['cyan'])
-await run('npm install eslint-plugin-import eslint-plugin-n eslint-plugin-promise -D', { io: 'silent' }).promise
-colorLog('Base ESLint plugins installed.', ['green'])
+Logger.loading('Installing base ESLint plugins...')
+await runSilent('npm install eslint-plugin-import eslint-plugin-n eslint-plugin-promise -D')
+// Logger.success('Base ESLint plugins installed.')
 
 if (useTypescript) {
-  colorLog('Installing TypeScript ESLint plugins...', ['cyan'])
-  await run('npm install @typescript-eslint/parser @typescript-eslint/eslint-plugin -D', { io: 'silent' }).promise
-  colorLog('TypeScript ESLint plugins installed.', ['green'])
+  Logger.loading('Installing TypeScript ESLint plugins...')
+  await runSilent('npm install @typescript-eslint/parser @typescript-eslint/eslint-plugin -D')
+  // Logger.success('TypeScript ESLint plugins installed.')
 }
 
 if (useReact) {
-  colorLog('Installing React ESLint plugins...', ['cyan'])
-  await run('npm install eslint-plugin-react eslint-plugin-react-hooks -D', { io: 'silent' }).promise
-  colorLog('React ESLint plugins installed.', ['green'])
+  Logger.loading('Installing React ESLint plugins...')
+  await runSilent('npm install eslint-plugin-react eslint-plugin-react-hooks -D')
+  // Logger.success('React ESLint plugins installed.')
 }
 
 const extendsArray = [
@@ -90,4 +92,5 @@ ${extendsArray.map(ext => `    '${ext}',`).join('\n')}
 }
 
 writeFileSync(configFileName, configContent + '\n')
-colorLog(`✅ ESLint configuration file '${configFileName}' generated successfully!`, ['green'])
+
+Logger.success(`ESLint initialized and '${configFileName}' generated successfully!`)
