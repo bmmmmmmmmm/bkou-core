@@ -17,14 +17,7 @@ const MILLI_PER_DAY = MILLI_PER_HOUR * 24;
 const MILLI_PER_MONTH = MILLI_PER_DAY * 30;
 const MILLI_PER_YEAR = MILLI_PER_DAY * 365;
 
-const MILLI_TO_SECOND = 1 / MILLI_PER_SECOND;
-const MILLI_TO_MINUTE = 1 / MILLI_PER_MINUTE;
-const MILLI_TO_HOUR = 1 / MILLI_PER_HOUR;
-const MILLI_TO_DAY = 1 / MILLI_PER_DAY;
-const MILLI_TO_MONTH = 1 / MILLI_PER_MONTH;
-const MILLI_TO_YEAR = 1 / MILLI_PER_YEAR;
-
-const TU2M_MAP = new Map<string, number>([
+const TU2M_MAP = new Map<TimeUnit, number>([
   ['milli', 1],
   ['second', MILLI_PER_SECOND],
   ['minute', MILLI_PER_MINUTE],
@@ -44,13 +37,6 @@ export {
   MILLI_PER_DAY,
   MILLI_PER_MONTH,
   MILLI_PER_YEAR,
-
-  MILLI_TO_SECOND,
-  MILLI_TO_MINUTE,
-  MILLI_TO_HOUR,
-  MILLI_TO_DAY,
-  MILLI_TO_MONTH,
-  MILLI_TO_YEAR,
 
   TU2M_MAP,
 };

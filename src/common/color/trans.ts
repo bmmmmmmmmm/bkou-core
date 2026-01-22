@@ -1,3 +1,5 @@
+// TODO: rename file
+
 // 8bit color
 const hex2Dec = (c) => {
   if (/^[a-f|0-9]+$/i.test(c)) {
