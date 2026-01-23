@@ -1,9 +1,11 @@
 import pluginN from 'eslint-plugin-n';
 import * as pluginImport from 'eslint-plugin-import';
 import pluginPromise from 'eslint-plugin-promise';
+// import pluginCustom from '../custom/index.js';
 import globals from 'globals';
 
 import baseRules from './rule-row-base.cjs';
+// import customRules from '../custom/rule-row-custom.cjs';
 
 const baseConfig = [
   {
@@ -36,9 +38,13 @@ const baseConfig = [
       n: pluginN,
       promise: pluginPromise,
       import: pluginImport,
+      // custom: pluginCustom,
     },
 
-    rules: baseRules,
+    rules: {
+      ...baseRules,
+      // ...customRules,
+    },
   },
 ];
 
